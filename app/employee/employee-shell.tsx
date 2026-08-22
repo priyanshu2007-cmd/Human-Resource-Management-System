@@ -7,6 +7,7 @@ const EMPLOYEE_NAV: NavItem[] = [
   { label: "Dashboard", href: "/employee/dashboard", icon: "dashboard" },
   { label: "Profile", href: "/employee/profile", icon: "person" },
   { label: "Attendance", href: "/employee/attendance", icon: "schedule" },
+  { label: "Calendar", href: "/employee/calendar", icon: "calendar_month" },
   { label: "Time Off", href: "/employee/leave", icon: "event_busy" },
   { label: "Payroll", href: "/employee/payroll", icon: "payments" },
 ];

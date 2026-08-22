@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 interface AttendanceRow {
@@ -33,7 +34,34 @@ export default async function AdminAttendancePage({
     .single();
 
   const orgId = adminProfile?.organization_id;
-  const selectedDate = date || new Date().toISOString().split("T")[0];
+  const todayStr = new Date().toISOString().split("T")[0];
+  const selectedDate = date || todayStr;
+  const isToday = selectedDate === todayStr;
+
+  const selectedDateObj = new Date(`${selectedDate}T00:00:00`);
+  const formattedDate = selectedDateObj.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  function shiftDate(days: number): string {
+    const d = new Date(selectedDateObj);
+    d.setDate(d.getDate() + days);
+    return d.toISOString().split("T")[0];
+  }
+
+  const prevDate = shiftDate(-1);
+  const nextDate = shiftDate(1);
+
+  function dateHref(targetDate: string): string {
+    const params = new URLSearchParams();
+    params.set("date", targetDate);
+    if (status) params.set("status", status);
+    if (q) params.set("q", q);
+    return `?${params.toString()}`;
+  }
 
   let query = supabase
     .from("attendance")
@@ -124,6 +152,84 @@ export default async function AdminAttendancePage({
         </p>
       </div>
 
+      {/* Date navigator */}
+      <div className="flex flex-wrap items-center gap-3 mb-6">
+        <Link
+          href={dateHref(prevDate)}
+          aria-label="Previous day"
+          className="w-9 h-9 flex items-center justify-center rounded border transition-colors shrink-0"
+          style={{
+            borderColor: "var(--outline-variant)",
+            background: "var(--surface-container-lowest)",
+          }}
+        >
+          <span className="material-symbols-outlined text-lg">chevron_left</span>
+        </Link>
+
+        <div className="min-w-[220px]">
+          <p className="text-body-md font-semibold">{formattedDate}</p>
+          {isToday && (
+            <p
+              className="font-mono text-label-caps uppercase"
+              style={{ color: "var(--on-surface-variant)" }}
+            >
+              Today
+            </p>
+          )}
+        </div>
+
+        {isToday ? (
+          <span
+            aria-hidden="true"
+            className="w-9 h-9 flex items-center justify-center rounded border opacity-40 shrink-0"
+            style={{
+              borderColor: "var(--outline-variant)",
+              background: "var(--surface-container-lowest)",
+            }}
+          >
+            <span className="material-symbols-outlined text-lg">chevron_right</span>
+          </span>
+        ) : (
+          <Link
+            href={dateHref(nextDate)}
+            aria-label="Next day"
+            className="w-9 h-9 flex items-center justify-center rounded border transition-colors shrink-0"
+            style={{
+              borderColor: "var(--outline-variant)",
+              background: "var(--surface-container-lowest)",
+            }}
+          >
+            <span className="material-symbols-outlined text-lg">chevron_right</span>
+          </Link>
+        )}
+
+        <form method="GET" className="flex items-center gap-2">
+          {status && <input type="hidden" name="status" value={status} />}
+          {q && <input type="hidden" name="q" value={q} />}
+          <input
+            type="date"
+            name="date"
+            defaultValue={selectedDate}
+            max={todayStr}
+            className="border rounded px-3 py-2 text-body-sm focus:outline-none focus:ring-1 transition-colors"
+            style={{
+              background: "var(--surface-container-lowest)",
+              borderColor: "var(--outline-variant)",
+            }}
+          />
+          <button
+            type="submit"
+            className="px-3 py-2 rounded text-body-sm font-semibold transition-colors cursor-pointer"
+            style={{
+              background: "var(--surface-container-high)",
+              color: "var(--on-surface-variant)",
+            }}
+          >
+            Go
+          </button>
+        </form>
+      </div>
+
       {/* Summary stat row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         {summaryStats.map((stat) => (
@@ -156,24 +262,7 @@ export default async function AdminAttendancePage({
 
       {/* Filters */}
       <form method="GET" className="flex flex-wrap items-end gap-3 mb-6">
-        <div>
-          <label
-            className="block font-mono text-label-caps uppercase tracking-widest mb-1"
-            style={{ color: "var(--on-surface-variant)" }}
-          >
-            Date
-          </label>
-          <input
-            type="date"
-            name="date"
-            defaultValue={selectedDate}
-            className="border rounded px-3 py-2 text-body-sm focus:outline-none focus:ring-1 transition-colors"
-            style={{
-              background: "var(--surface-container-lowest)",
-              borderColor: "var(--outline-variant)",
-            }}
-          />
-        </div>
+        <input type="hidden" name="date" value={selectedDate} />
         <div>
           <label
             className="block font-mono text-label-caps uppercase tracking-widest mb-1"

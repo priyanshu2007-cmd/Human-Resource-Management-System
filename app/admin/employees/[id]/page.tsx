@@ -76,6 +76,23 @@ export default async function AdminEmployeeDetailPage({
 
   const salary = salaryRows?.[0] ?? null;
 
+  // Documents
+  const { data: documentRows } = await supabase
+    .from("documents")
+    .select("id, document_type, file_url, uploaded_at")
+    .eq("user_id", id)
+    .eq("organization_id", orgId ?? "")
+    .order("uploaded_at", { ascending: false });
+
+  const documents = await Promise.all(
+    (documentRows || []).map(async (doc) => {
+      const { data: signedUrlData } = await supabase.storage
+        .from("documents")
+        .createSignedUrl(doc.file_url, 300);
+      return { ...doc, signedUrl: signedUrlData?.signedUrl ?? null };
+    })
+  );
+
   const nameParts = employee.full_name.split(" ");
   const initials = (
     (nameParts[0]?.[0] || "") + (nameParts[nameParts.length - 1]?.[0] || "")
@@ -198,9 +215,13 @@ export default async function AdminEmployeeDetailPage({
 
       <EmployeeEditDetails
         employeeId={employee.id}
+        initialFullName={employee.full_name}
+        initialEmail={employee.email}
         initialJobTitle={employee.job_title}
         initialDepartment={employee.department}
         initialPhone={employee.phone}
+        initialAddress={employee.address}
+        initialDateOfJoining={employee.date_of_joining}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -315,6 +336,58 @@ export default async function AdminEmployeeDetailPage({
             </div>
           )}
         </div>
+      </div>
+
+      {/* Documents */}
+      <div className="border rounded-lg overflow-hidden mt-6" style={cardStyle}>
+        <div className="px-5 py-4 border-b" style={{ borderColor: "var(--outline-variant)" }}>
+          <h2 className="text-title-md font-semibold">Documents</h2>
+        </div>
+
+        {documents.length > 0 ? (
+          <div className="divide-y" style={{ borderColor: "var(--outline-variant)" }}>
+            {documents.map((doc) => (
+              <div
+                key={doc.id}
+                className="flex items-center justify-between gap-3 px-5 py-3"
+              >
+                <div className="min-w-0">
+                  <p className="text-body-sm font-semibold">{doc.document_type}</p>
+                  <p className="text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
+                    Uploaded{" "}
+                    {doc.uploaded_at
+                      ? new Date(doc.uploaded_at).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "—"}
+                  </p>
+                </div>
+                {doc.signedUrl ? (
+                  <a
+                    href={doc.signedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded text-body-sm font-semibold transition-colors border"
+                    style={{ borderColor: "var(--outline-variant)", color: "var(--primary)" }}
+                  >
+                    <span className="material-symbols-outlined text-lg">visibility</span>
+                    View
+                  </a>
+                ) : (
+                  <span className="text-body-sm shrink-0" style={{ color: "var(--outline)" }}>
+                    Unavailable
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="p-5 text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
+            No documents uploaded.
+          </div>
+        )}
       </div>
 
       {/* Payroll glance */}

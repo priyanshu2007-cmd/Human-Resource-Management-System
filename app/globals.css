@@ -112,6 +112,7 @@
   
   --background: #f9f9f9;
   --on-background: #1a1c1c;
+  --foreground: var(--on-background);
   --surface: #f9f9f9;
   --on-surface: #1a1c1c;
   --on-surface-variant: #4a4455;
@@ -153,6 +154,7 @@
   
   --background: #0f172a;
   --on-background: #f1f1f1;
+  --foreground: var(--on-background);
   --surface: #0f172a;
   --on-surface: #f1f1f1;
   --on-surface-variant: #ccc3d8;

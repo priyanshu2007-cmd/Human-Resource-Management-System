@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { NavItem } from "@/components/shared/sidebar";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 interface NavbarProps {
   user: {
@@ -49,6 +50,8 @@ export function Navbar({ user, mobileNavItems }: NavbarProps) {
 
         {/* Spacer */}
         <div className="flex-1" />
+
+        <ThemeToggle className="mr-2" />
 
         {/* Profile dropdown */}
         <div className="relative">

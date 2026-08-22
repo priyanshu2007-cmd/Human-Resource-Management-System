@@ -6,9 +6,13 @@ import { createClient } from "@/lib/supabase/client";
 
 interface Props {
   employeeId: string;
+  initialFullName: string;
+  initialEmail: string;
   initialJobTitle: string | null;
   initialDepartment: string | null;
   initialPhone: string | null;
+  initialAddress: string | null;
+  initialDateOfJoining: string | null;
 }
 
 const cardStyle: React.CSSProperties = {
@@ -27,24 +31,36 @@ const labelStyle: React.CSSProperties = { color: "var(--on-surface-variant)" };
 
 export function EmployeeEditDetails({
   employeeId,
+  initialFullName,
+  initialEmail,
   initialJobTitle,
   initialDepartment,
   initialPhone,
+  initialAddress,
+  initialDateOfJoining,
 }: Props) {
   const router = useRouter();
 
   const [editing, setEditing] = useState(false);
+  const [fullName, setFullName] = useState(initialFullName);
+  const [email, setEmail] = useState(initialEmail);
   const [jobTitle, setJobTitle] = useState(initialJobTitle ?? "");
   const [department, setDepartment] = useState(initialDepartment ?? "");
   const [phone, setPhone] = useState(initialPhone ?? "");
+  const [address, setAddress] = useState(initialAddress ?? "");
+  const [dateOfJoining, setDateOfJoining] = useState(initialDateOfJoining ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   function handleCancel() {
+    setFullName(initialFullName);
+    setEmail(initialEmail);
     setJobTitle(initialJobTitle ?? "");
     setDepartment(initialDepartment ?? "");
     setPhone(initialPhone ?? "");
+    setAddress(initialAddress ?? "");
+    setDateOfJoining(initialDateOfJoining ?? "");
     setError(null);
     setEditing(false);
   }
@@ -53,15 +69,29 @@ export function EmployeeEditDetails({
     e.preventDefault();
     setError(null);
     setSuccess(null);
+
+    if (!fullName.trim()) {
+      setError("Full name is required.");
+      return;
+    }
+    if (!email.trim()) {
+      setError("Email is required.");
+      return;
+    }
+
     setSaving(true);
 
     const supabase = createClient();
     const { error: updateError } = await supabase
       .from("profiles")
       .update({
+        full_name: fullName.trim(),
+        email: email.trim(),
         job_title: jobTitle || null,
         department: department || null,
         phone: phone || null,
+        address: address || null,
+        date_of_joining: dateOfJoining || null,
       })
       .eq("id", employeeId);
 
@@ -113,7 +143,33 @@ export function EmployeeEditDetails({
 
       {editing ? (
         <form onSubmit={handleSave} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label className={labelClass} style={labelStyle}>
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="e.g. Jordan Doe"
+                className="w-full border rounded px-3 py-2.5 text-body-md focus:outline-none focus:ring-1 transition-colors"
+                style={inputStyle}
+              />
+            </div>
+            <div>
+              <label className={labelClass} style={labelStyle}>
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@company.com"
+                className="w-full border rounded px-3 py-2.5 text-body-md focus:outline-none focus:ring-1 transition-colors"
+                style={inputStyle}
+              />
+            </div>
             <div>
               <label className={labelClass} style={labelStyle}>
                 Job Title
@@ -153,6 +209,31 @@ export function EmployeeEditDetails({
                 style={inputStyle}
               />
             </div>
+            <div>
+              <label className={labelClass} style={labelStyle}>
+                Date of Joining
+              </label>
+              <input
+                type="date"
+                value={dateOfJoining}
+                onChange={(e) => setDateOfJoining(e.target.value)}
+                className="w-full border rounded px-3 py-2.5 text-body-md focus:outline-none focus:ring-1 transition-colors"
+                style={inputStyle}
+              />
+            </div>
+            <div className="sm:col-span-2 lg:col-span-3">
+              <label className={labelClass} style={labelStyle}>
+                Address
+              </label>
+              <textarea
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Street, city, state, ZIP"
+                rows={3}
+                className="w-full border rounded px-3 py-2.5 text-body-md focus:outline-none focus:ring-1 transition-colors resize-none"
+                style={inputStyle}
+              />
+            </div>
           </div>
 
           <div className="flex gap-3 pt-2">
@@ -176,7 +257,19 @@ export function EmployeeEditDetails({
           </div>
         </form>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <p className="font-mono text-label-caps uppercase mb-1" style={labelStyle}>
+              Full Name
+            </p>
+            <p className="text-body-sm">{fullName || "—"}</p>
+          </div>
+          <div>
+            <p className="font-mono text-label-caps uppercase mb-1" style={labelStyle}>
+              Email
+            </p>
+            <p className="text-body-sm">{email || "—"}</p>
+          </div>
           <div>
             <p className="font-mono text-label-caps uppercase mb-1" style={labelStyle}>
               Job Title
@@ -194,6 +287,18 @@ export function EmployeeEditDetails({
               Phone
             </p>
             <p className="text-body-sm">{phone || "—"}</p>
+          </div>
+          <div>
+            <p className="font-mono text-label-caps uppercase mb-1" style={labelStyle}>
+              Date of Joining
+            </p>
+            <p className="text-body-sm">{dateOfJoining || "—"}</p>
+          </div>
+          <div className="sm:col-span-2 lg:col-span-3">
+            <p className="font-mono text-label-caps uppercase mb-1" style={labelStyle}>
+              Address
+            </p>
+            <p className="text-body-sm">{address || "—"}</p>
           </div>
         </div>
       )}

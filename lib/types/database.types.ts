@@ -104,9 +104,42 @@ export type Database = {
           },
         ]
       }
+      holidays: {
+        Row: {
+          created_at: string | null
+          date: string
+          id: string
+          name: string
+          organization_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          date: string
+          id?: string
+          name: string
+          organization_id: string
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          id?: string
+          name?: string
+          organization_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "holidays_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leave_requests: {
         Row: {
           admin_comment: string | null
+          attachment_url: string | null
           created_at: string | null
           end_date: string
           id: string
@@ -121,6 +154,7 @@ export type Database = {
         }
         Insert: {
           admin_comment?: string | null
+          attachment_url?: string | null
           created_at?: string | null
           end_date: string
           id?: string
@@ -135,6 +169,7 @@ export type Database = {
         }
         Update: {
           admin_comment?: string | null
+          attachment_url?: string | null
           created_at?: string | null
           end_date?: string
           id?: string
@@ -195,56 +230,99 @@ export type Database = {
       profiles: {
         Row: {
           address: string | null
+          bank_account_number: string | null
+          bank_name: string | null
           created_at: string | null
+          date_of_birth: string | null
           date_of_joining: string | null
           department: string | null
           email: string
           employee_id: string
           full_name: string
+          gender: string | null
           id: string
+          ifsc_code: string | null
           job_title: string | null
+          location: string | null
+          manager_id: string | null
+          marital_status: string | null
           must_change_password: boolean
+          nationality: string | null
           organization_id: string
+          pan_no: string | null
           phone: string | null
           profile_picture_url: string | null
+          residing_address: string | null
           role: string
+          uan_no: string | null
           updated_at: string | null
         }
         Insert: {
           address?: string | null
+          bank_account_number?: string | null
+          bank_name?: string | null
           created_at?: string | null
+          date_of_birth?: string | null
           date_of_joining?: string | null
           department?: string | null
           email: string
           employee_id: string
           full_name: string
+          gender?: string | null
           id: string
+          ifsc_code?: string | null
           job_title?: string | null
+          location?: string | null
+          manager_id?: string | null
+          marital_status?: string | null
           must_change_password?: boolean
+          nationality?: string | null
           organization_id: string
+          pan_no?: string | null
           phone?: string | null
           profile_picture_url?: string | null
+          residing_address?: string | null
           role?: string
+          uan_no?: string | null
           updated_at?: string | null
         }
         Update: {
           address?: string | null
+          bank_account_number?: string | null
+          bank_name?: string | null
           created_at?: string | null
+          date_of_birth?: string | null
           date_of_joining?: string | null
           department?: string | null
           email?: string
           employee_id?: string
           full_name?: string
+          gender?: string | null
           id?: string
+          ifsc_code?: string | null
           job_title?: string | null
+          location?: string | null
+          manager_id?: string | null
+          marital_status?: string | null
           must_change_password?: boolean
+          nationality?: string | null
           organization_id?: string
+          pan_no?: string | null
           phone?: string | null
           profile_picture_url?: string | null
+          residing_address?: string | null
           role?: string
+          uan_no?: string | null
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "profiles_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "profiles_organization_id_fkey"
             columns: ["organization_id"]
@@ -258,35 +336,74 @@ export type Database = {
         Row: {
           allowances: number | null
           base_salary: number
+          basic_salary: number | null
+          break_time_hours: number | null
           deductions: number | null
           effective_from: string
+          employee_pf: number | null
+          employer_pf: number | null
+          fixed_allowance: number | null
+          hra: number | null
           id: string
+          lta: number | null
+          month_wage: number | null
+          net_pay: number | null
           organization_id: string
+          performance_bonus: number | null
+          professional_tax: number | null
+          standard_allowance: number | null
           updated_at: string | null
           updated_by: string | null
           user_id: string | null
+          working_days_per_week: number | null
         }
         Insert: {
           allowances?: number | null
           base_salary: number
+          basic_salary?: number | null
+          break_time_hours?: number | null
           deductions?: number | null
           effective_from: string
+          employee_pf?: number | null
+          employer_pf?: number | null
+          fixed_allowance?: number | null
+          hra?: number | null
           id?: string
+          lta?: number | null
+          month_wage?: number | null
+          net_pay?: number | null
           organization_id: string
+          performance_bonus?: number | null
+          professional_tax?: number | null
+          standard_allowance?: number | null
           updated_at?: string | null
           updated_by?: string | null
           user_id?: string | null
+          working_days_per_week?: number | null
         }
         Update: {
           allowances?: number | null
           base_salary?: number
+          basic_salary?: number | null
+          break_time_hours?: number | null
           deductions?: number | null
           effective_from?: string
+          employee_pf?: number | null
+          employer_pf?: number | null
+          fixed_allowance?: number | null
+          hra?: number | null
           id?: string
+          lta?: number | null
+          month_wage?: number | null
+          net_pay?: number | null
           organization_id?: string
+          performance_bonus?: number | null
+          professional_tax?: number | null
+          standard_allowance?: number | null
           updated_at?: string | null
           updated_by?: string | null
           user_id?: string | null
+          working_days_per_week?: number | null
         }
         Relationships: [
           {

@@ -34,6 +34,13 @@ export default async function AdminDashboard() {
 
   const presentCount =
     todayAttendance?.filter((a) => a.status === "present").length ?? 0;
+  const halfDayCount =
+    todayAttendance?.filter((a) => a.status === "half-day").length ?? 0;
+  const absentCount =
+    todayAttendance?.filter((a) => a.status === "absent").length ?? 0;
+  const onLeaveCount =
+    todayAttendance?.filter((a) => a.status === "leave").length ?? 0;
+  const todayAttendanceTotal = todayAttendance?.length ?? 0;
 
   // Pending leave requests
   const { count: pendingLeaves } = await supabase
@@ -41,6 +48,53 @@ export default async function AdminDashboard() {
     .select("*", { count: "exact", head: true })
     .eq("organization_id", orgId ?? "")
     .eq("status", "pending");
+
+  // A few most-recent pending leave requests, for the approvals widget
+  interface PendingLeaveRow {
+    id: string;
+    leave_type: string;
+    start_date: string;
+    end_date: string;
+    profiles: { full_name: string } | null;
+  }
+
+  const { data: rawRecentPendingLeaves } = await supabase
+    .from("leave_requests")
+    .select("id, leave_type, start_date, end_date, profiles(full_name)")
+    .eq("organization_id", orgId ?? "")
+    .eq("status", "pending")
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  const recentPendingLeaves =
+    (rawRecentPendingLeaves as unknown as PendingLeaveRow[]) || [];
+
+  const attendanceStats = [
+    {
+      label: "Total",
+      value: todayAttendanceTotal,
+      icon: "groups",
+      color: "var(--primary)",
+    },
+    {
+      label: "Present",
+      value: presentCount,
+      icon: "check_circle",
+      color: "var(--status-approved)",
+    },
+    {
+      label: "Half-day",
+      value: halfDayCount,
+      icon: "schedule",
+      color: "var(--status-pending)",
+    },
+    {
+      label: "Absent / Leave",
+      value: absentCount + onLeaveCount,
+      icon: "event_busy",
+      color: "var(--status-rejected)",
+    },
+  ];
 
   // Recent employees
   const { data: employees } = await supabase
@@ -122,6 +176,100 @@ export default async function AdminDashboard() {
             <p className="text-headline-xl font-bold">{stat.value}</p>
           </div>
         ))}
+      </div>
+
+      {/* Today's attendance + leave approvals widgets */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+        {/* Attendance overview */}
+        <div className="lg:col-span-2">
+          <h2 className="text-body-md font-semibold mb-3">Today&apos;s Attendance</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {attendanceStats.map((stat) => (
+              <div
+                key={stat.label}
+                className="border rounded-lg p-4"
+                style={{
+                  background: "var(--surface-container-lowest)",
+                  borderColor: "var(--outline-variant)",
+                }}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span
+                    className="material-symbols-outlined text-xl"
+                    style={{ color: stat.color }}
+                  >
+                    {stat.icon}
+                  </span>
+                  <span
+                    className="font-mono text-label-caps uppercase"
+                    style={{ color: "var(--on-surface-variant)" }}
+                  >
+                    {stat.label}
+                  </span>
+                </div>
+                <p className="text-headline-lg font-bold">{stat.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Leave approvals summary */}
+        <div>
+          <h2 className="text-body-md font-semibold mb-3">Leave Approvals</h2>
+          <Link
+            href="/admin/leave-approvals"
+            className="block border rounded-lg p-4 mb-3 transition-colors hover:bg-[var(--surface-container-low)]"
+            style={{
+              background: "var(--surface-container-lowest)",
+              borderColor: "var(--outline-variant)",
+            }}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span
+                className="material-symbols-outlined text-xl"
+                style={{ color: "var(--status-pending)" }}
+              >
+                pending_actions
+              </span>
+              <span
+                className="font-mono text-label-caps uppercase"
+                style={{ color: "var(--on-surface-variant)" }}
+              >
+                Pending Requests
+              </span>
+            </div>
+            <p className="text-headline-lg font-bold">{pendingLeaves ?? 0}</p>
+          </Link>
+
+          {recentPendingLeaves.length > 0 && (
+            <div
+              className="border rounded-lg divide-y overflow-hidden"
+              style={{
+                background: "var(--surface-container-lowest)",
+                borderColor: "var(--outline-variant)",
+              }}
+            >
+              {recentPendingLeaves.map((req) => (
+                <Link
+                  key={req.id}
+                  href="/admin/leave-approvals"
+                  className="block px-4 py-3 transition-colors hover:bg-[var(--surface-container-low)]"
+                  style={{ borderColor: "var(--outline-variant)" }}
+                >
+                  <p className="text-body-sm font-semibold truncate">
+                    {req.profiles?.full_name ?? "Unknown employee"}
+                  </p>
+                  <p
+                    className="text-body-sm capitalize truncate"
+                    style={{ color: "var(--on-surface-variant)" }}
+                  >
+                    {req.leave_type} leave · {req.start_date} → {req.end_date}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Employee list */}

@@ -8,6 +8,7 @@ const ADMIN_NAV: NavItem[] = [
   { label: "Employees", href: "/admin/employees", icon: "group" },
   { label: "Attendance", href: "/admin/attendance", icon: "schedule" },
   { label: "Time Off", href: "/admin/leave-approvals", icon: "event_busy" },
+  { label: "Holidays", href: "/admin/holidays", icon: "celebration" },
   { label: "Payroll", href: "/admin/payroll", icon: "payments" },
 ];
 

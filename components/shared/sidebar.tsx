@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/shared/logo";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 export interface NavItem {
   label: string;
@@ -90,7 +91,7 @@ export function Sidebar({ items, user }: SidebarProps) {
           >
             {user.initials}
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <p className="text-body-sm font-semibold truncate">{user.name}</p>
             <p
               className="text-label-caps font-mono uppercase truncate"
@@ -99,6 +100,7 @@ export function Sidebar({ items, user }: SidebarProps) {
               {user.role}
             </p>
           </div>
+          <ThemeToggle />
         </div>
       </div>
     </aside>
