@@ -86,6 +86,34 @@ export default async function AdminAttendancePage({
   const presentCount = records.filter((r) => r.status === "present").length;
   const absentCount = records.filter((r) => r.status === "absent").length;
   const halfDayCount = records.filter((r) => r.status === "half-day").length;
+  const leaveCount = records.filter((r) => r.status === "leave").length;
+
+  const summaryStats = [
+    {
+      label: "Total",
+      value: records.length,
+      icon: "groups",
+      color: "var(--primary)",
+    },
+    {
+      label: "Present",
+      value: presentCount,
+      icon: "check_circle",
+      color: "var(--status-approved)",
+    },
+    {
+      label: "Half-day",
+      value: halfDayCount,
+      icon: "schedule",
+      color: "var(--status-pending)",
+    },
+    {
+      label: "Absent / Leave",
+      value: absentCount + leaveCount,
+      icon: "event_busy",
+      color: "var(--status-rejected)",
+    },
+  ];
 
   return (
     <div>
@@ -94,6 +122,36 @@ export default async function AdminAttendancePage({
         <p className="text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
           {presentCount} present · {absentCount} absent · {halfDayCount} half-day
         </p>
+      </div>
+
+      {/* Summary stat row */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        {summaryStats.map((stat) => (
+          <div
+            key={stat.label}
+            className="border rounded-lg p-4"
+            style={{
+              background: "var(--surface-container-lowest)",
+              borderColor: "var(--outline-variant)",
+            }}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span
+                className="material-symbols-outlined text-xl"
+                style={{ color: stat.color }}
+              >
+                {stat.icon}
+              </span>
+              <span
+                className="font-mono text-label-caps uppercase"
+                style={{ color: "var(--on-surface-variant)" }}
+              >
+                {stat.label}
+              </span>
+            </div>
+            <p className="text-headline-lg font-bold">{stat.value}</p>
+          </div>
+        ))}
       </div>
 
       {/* Filters */}

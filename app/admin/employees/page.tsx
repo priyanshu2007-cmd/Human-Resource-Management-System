@@ -38,6 +38,18 @@ export default async function AdminEmployeesPage({
 
   const { data: employees } = await query;
 
+  // Who's on leave today, so the status dot can reflect it alongside
+  // "pending setup" (must_change_password).
+  const today = new Date().toISOString().split("T")[0];
+  const { data: onLeaveRows } = await supabase
+    .from("attendance")
+    .select("user_id")
+    .eq("organization_id", orgId ?? "")
+    .eq("date", today)
+    .eq("status", "leave");
+
+  const onLeaveIds = new Set((onLeaveRows ?? []).map((r) => r.user_id));
+
   return (
     <div>
       {/* Header */}
@@ -84,175 +96,146 @@ export default async function AdminEmployeesPage({
         </div>
       </form>
 
-      {/* Table */}
-      <div
-        className="border rounded-lg overflow-hidden"
-        style={{
-          background: "var(--surface-container-lowest)",
-          borderColor: "var(--outline-variant)",
-        }}
-      >
-        {employees && employees.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr
-                  className="border-b"
-                  style={{ borderColor: "var(--outline-variant)" }}
-                >
-                  <th className="px-5 py-3 font-mono text-label-caps uppercase" style={{ color: "var(--on-surface-variant)" }}>
-                    Name
-                  </th>
-                  <th className="px-5 py-3 font-mono text-label-caps uppercase hidden sm:table-cell" style={{ color: "var(--on-surface-variant)" }}>
-                    Login ID
-                  </th>
-                  <th className="px-5 py-3 font-mono text-label-caps uppercase hidden md:table-cell" style={{ color: "var(--on-surface-variant)" }}>
-                    Email
-                  </th>
-                  <th className="px-5 py-3 font-mono text-label-caps uppercase hidden lg:table-cell" style={{ color: "var(--on-surface-variant)" }}>
-                    Department
-                  </th>
-                  <th className="px-5 py-3 font-mono text-label-caps uppercase" style={{ color: "var(--on-surface-variant)" }}>
-                    Status
-                  </th>
-                  <th className="px-5 py-3" />
-                </tr>
-              </thead>
-              <tbody className="divide-y" style={{ borderColor: "var(--outline-variant)" }}>
-                {employees.map((emp) => {
-                  const nameParts = emp.full_name.split(" ");
-                  const initials = (
-                    (nameParts[0]?.[0] || "") +
-                    (nameParts[nameParts.length - 1]?.[0] || "")
-                  ).toUpperCase();
+      {/* Card grid */}
+      {employees && employees.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {employees.map((emp) => {
+            const nameParts = emp.full_name.split(" ");
+            const initials = (
+              (nameParts[0]?.[0] || "") +
+              (nameParts[nameParts.length - 1]?.[0] || "")
+            ).toUpperCase();
 
-                  return (
-                    <tr key={emp.id} className="group">
-                      <td className="px-5 py-3">
-                        <Link
-                          href={`/admin/employees/${emp.id}`}
-                          className="flex items-center gap-3"
-                        >
-                          <div
-                            className="w-9 h-9 rounded-full flex items-center justify-center text-body-sm font-semibold shrink-0"
-                            style={{
-                              background: "var(--primary-container)",
-                              color: "var(--on-primary-container)",
-                            }}
-                          >
-                            {initials}
-                          </div>
-                          <div className="min-w-0">
-                            <p className="text-body-sm font-semibold truncate">
-                              {emp.full_name}
-                            </p>
-                            <p
-                              className="text-body-sm truncate"
-                              style={{ color: "var(--on-surface-variant)" }}
-                            >
-                              {emp.job_title || (emp.role === "admin" ? "Admin" : "Employee")}
-                            </p>
-                          </div>
-                        </Link>
-                      </td>
-                      <td className="px-5 py-3 hidden sm:table-cell">
-                        <span
-                          className="font-mono text-body-sm"
-                          style={{ color: "var(--outline)" }}
-                        >
-                          {emp.employee_id}
-                        </span>
-                      </td>
-                      <td className="px-5 py-3 hidden md:table-cell">
-                        <span
-                          className="text-body-sm truncate"
-                          style={{ color: "var(--on-surface-variant)" }}
-                        >
-                          {emp.email}
-                        </span>
-                      </td>
-                      <td className="px-5 py-3 hidden lg:table-cell">
-                        <span
-                          className="text-body-sm"
-                          style={{ color: "var(--on-surface-variant)" }}
-                        >
-                          {emp.department || "—"}
-                        </span>
-                      </td>
-                      <td className="px-5 py-3">
-                        {emp.must_change_password ? (
-                          <span
-                            className="font-mono text-label-caps uppercase px-2 py-0.5 rounded-sm"
-                            style={{
-                              color: "var(--status-pending)",
-                              background: "rgba(234,179,8,0.1)",
-                            }}
-                          >
-                            Pending Setup
-                          </span>
-                        ) : (
-                          <span
-                            className="font-mono text-label-caps uppercase px-2 py-0.5 rounded-sm"
-                            style={{
-                              color: "var(--status-approved)",
-                              background: "rgba(34,197,94,0.1)",
-                            }}
-                          >
-                            Active
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-5 py-3 text-right">
-                        <Link href={`/admin/employees/${emp.id}`}>
-                          <span
-                            className="material-symbols-outlined text-lg"
-                            style={{ color: "var(--outline)" }}
-                          >
-                            chevron_right
-                          </span>
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="p-12 text-center">
-            <span
-              className="material-symbols-outlined text-5xl mb-3 block"
-              style={{ color: "var(--outline-variant)" }}
-            >
-              group_add
-            </span>
-            <p className="text-body-md font-semibold mb-1">
-              {q ? "No employees match your search" : "No employees yet"}
-            </p>
-            <p
-              className="text-body-sm mb-4"
-              style={{ color: "var(--on-surface-variant)" }}
-            >
-              {q
-                ? "Try a different name, ID, or department."
-                : "Create your first employee to get started."}
-            </p>
-            {!q && (
+            const isPending = emp.must_change_password;
+            const isOnLeave = onLeaveIds.has(emp.id);
+            const dotColor = isPending
+              ? "var(--status-pending)"
+              : isOnLeave
+                ? "var(--status-pending)"
+                : "var(--status-approved)";
+            const dotLabel = isPending
+              ? "Pending setup"
+              : isOnLeave
+                ? "On leave today"
+                : "Active";
+
+            return (
               <Link
-                href="/admin/employees/new"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded text-body-sm font-semibold"
+                key={emp.id}
+                href={`/admin/employees/${emp.id}`}
+                className="relative border rounded-xl p-5 transition-colors"
                 style={{
-                  background: "var(--primary)",
-                  color: "var(--on-primary)",
+                  background: "var(--surface-container-lowest)",
+                  borderColor: "var(--outline-variant)",
                 }}
+                onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                  (e.currentTarget.style.borderColor = "var(--primary)")
+                }
+                onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                  (e.currentTarget.style.borderColor = "var(--outline-variant)")
+                }
               >
-                <span className="material-symbols-outlined text-lg">add</span>
-                New Employee
+                <span
+                  className="absolute top-4 right-4 w-2.5 h-2.5 rounded-full"
+                  style={{ background: dotColor }}
+                  title={dotLabel}
+                />
+
+                <div className="flex items-center gap-3 mb-4 pr-4">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-body-md font-semibold shrink-0"
+                    style={{
+                      background: "var(--primary-container)",
+                      color: "var(--on-primary-container)",
+                    }}
+                  >
+                    {initials}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-body-md font-semibold truncate">
+                      {emp.full_name}
+                    </p>
+                    <p
+                      className="text-body-sm truncate"
+                      style={{ color: "var(--on-surface-variant)" }}
+                    >
+                      {emp.job_title || (emp.role === "admin" ? "Admin" : "Employee")}
+                    </p>
+                    <p
+                      className="font-mono text-label-caps uppercase mt-0.5"
+                      style={{ color: "var(--outline)" }}
+                    >
+                      {emp.employee_id}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5">
+                  {emp.department && (
+                    <span
+                      className="font-mono text-label-caps uppercase px-2.5 py-1 rounded-full"
+                      style={{
+                        background: "var(--surface-container-high)",
+                        color: "var(--on-surface-variant)",
+                      }}
+                    >
+                      {emp.department}
+                    </span>
+                  )}
+                  <span
+                    className="font-mono text-label-caps uppercase px-2.5 py-1 rounded-full capitalize"
+                    style={{
+                      background: "var(--surface-container-high)",
+                      color: "var(--on-surface-variant)",
+                    }}
+                  >
+                    {emp.role}
+                  </span>
+                </div>
               </Link>
-            )}
-          </div>
-        )}
-      </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div
+          className="border rounded-lg p-12 text-center"
+          style={{
+            background: "var(--surface-container-lowest)",
+            borderColor: "var(--outline-variant)",
+          }}
+        >
+          <span
+            className="material-symbols-outlined text-5xl mb-3 block"
+            style={{ color: "var(--outline-variant)" }}
+          >
+            group_add
+          </span>
+          <p className="text-body-md font-semibold mb-1">
+            {q ? "No employees match your search" : "No employees yet"}
+          </p>
+          <p
+            className="text-body-sm mb-4"
+            style={{ color: "var(--on-surface-variant)" }}
+          >
+            {q
+              ? "Try a different name, ID, or department."
+              : "Create your first employee to get started."}
+          </p>
+          {!q && (
+            <Link
+              href="/admin/employees/new"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded text-body-sm font-semibold"
+              style={{
+                background: "var(--primary)",
+                color: "var(--on-primary)",
+              }}
+            >
+              <span className="material-symbols-outlined text-lg">add</span>
+              New Employee
+            </Link>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -17,6 +17,8 @@ interface LeaveRequestRow {
     full_name: string;
     employee_id: string;
     department: string | null;
+    job_title: string | null;
+    role: string;
   } | null;
 }
 
@@ -38,7 +40,7 @@ export default function AdminLeaveApprovalsPage() {
     let query = supabase
       .from("leave_requests")
       .select(
-        "id, leave_type, start_date, end_date, status, remarks, admin_comment, created_at, user_id, profiles(full_name, employee_id, department)"
+        "id, leave_type, start_date, end_date, status, remarks, admin_comment, created_at, user_id, profiles(full_name, employee_id, department, job_title, role)"
       )
       .order("created_at", { ascending: false });
 
@@ -164,36 +166,61 @@ export default function AdminLeaveApprovalsPage() {
         </div>
       )}
 
-      <div className="border rounded-lg overflow-hidden" style={cardStyle}>
-        {loading ? (
-          <div className="p-8 text-center text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
-            Loading…
-          </div>
-        ) : requests.length > 0 ? (
-          <div className="divide-y" style={{ borderColor: "var(--outline-variant)" }}>
-            {requests.map((req) => (
-              <div key={req.id} className="px-5 py-4">
+      {loading ? (
+        <div
+          className="border rounded-lg p-8 text-center text-body-sm"
+          style={{ ...cardStyle, color: "var(--on-surface-variant)" }}
+        >
+          Loading…
+        </div>
+      ) : requests.length > 0 ? (
+        <div className="space-y-3">
+          {requests.map((req) => {
+            const nameParts = (req.profiles?.full_name || "").split(" ");
+            const initials = (
+              (nameParts[0]?.[0] || "") +
+              (nameParts[nameParts.length - 1]?.[0] || "")
+            ).toUpperCase();
+
+            return (
+              <div key={req.id} className="border rounded-xl p-5" style={cardStyle}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <p className="text-body-sm font-semibold">
-                      {req.profiles?.full_name || "Unknown"}{" "}
-                      <span className="font-mono text-body-sm font-normal" style={{ color: "var(--outline)" }}>
-                        {req.profiles?.employee_id}
-                      </span>
-                    </p>
-                    <p className="text-body-sm capitalize" style={{ color: "var(--on-surface-variant)" }}>
-                      {req.leave_type} leave · {req.start_date} → {req.end_date}
-                    </p>
-                    {req.remarks && (
-                      <p className="text-body-sm mt-1 italic" style={{ color: "var(--outline)" }}>
-                        &ldquo;{req.remarks}&rdquo;
+                  <div className="flex items-start gap-3 min-w-0">
+                    <div
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-body-sm font-semibold shrink-0"
+                      style={{
+                        background: "var(--primary-container)",
+                        color: "var(--on-primary-container)",
+                      }}
+                    >
+                      {initials}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-body-sm font-semibold">
+                        {req.profiles?.full_name || "Unknown"}{" "}
+                        <span className="font-mono text-body-sm font-normal" style={{ color: "var(--outline)" }}>
+                          {req.profiles?.employee_id}
+                        </span>
                       </p>
-                    )}
-                    {req.admin_comment && (
-                      <p className="text-body-sm mt-1" style={{ color: "var(--on-surface-variant)" }}>
-                        Admin note: {req.admin_comment}
+                      <p className="text-body-sm capitalize" style={{ color: "var(--on-surface-variant)" }}>
+                        {req.profiles?.job_title ||
+                          (req.profiles?.role === "admin" ? "Admin" : "Employee")}
+                        {req.profiles?.department && ` · ${req.profiles.department}`}
                       </p>
-                    )}
+                      <p className="text-body-sm capitalize mt-1" style={{ color: "var(--on-surface-variant)" }}>
+                        {req.leave_type} leave · {req.start_date} → {req.end_date}
+                      </p>
+                      {req.remarks && (
+                        <p className="text-body-sm mt-1 italic" style={{ color: "var(--outline)" }}>
+                          &ldquo;{req.remarks}&rdquo;
+                        </p>
+                      )}
+                      {req.admin_comment && (
+                        <p className="text-body-sm mt-1" style={{ color: "var(--on-surface-variant)" }}>
+                          Admin note: {req.admin_comment}
+                        </p>
+                      )}
+                    </div>
                   </div>
                   <span
                     className="font-mono text-label-caps uppercase px-2 py-0.5 rounded-sm shrink-0"
@@ -204,7 +231,7 @@ export default function AdminLeaveApprovalsPage() {
                 </div>
 
                 {req.status === "pending" && (
-                  <div className="mt-3">
+                  <div className="mt-3 pl-[52px]">
                     {rejectingId === req.id ? (
                       <div className="flex flex-wrap items-center gap-2">
                         <input
@@ -262,27 +289,27 @@ export default function AdminLeaveApprovalsPage() {
                   </div>
                 )}
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="p-12 text-center">
-            <span
-              className="material-symbols-outlined text-5xl mb-3 block"
-              style={{ color: "var(--outline-variant)" }}
-            >
-              task_alt
-            </span>
-            <p className="text-body-md font-semibold mb-1">
-              {filter === "pending" ? "No pending requests" : "No leave requests"}
-            </p>
-            <p className="text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
-              {filter === "pending"
-                ? "You're all caught up."
-                : "Nothing has been submitted yet."}
-            </p>
-          </div>
-        )}
-      </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="border rounded-lg p-12 text-center" style={cardStyle}>
+          <span
+            className="material-symbols-outlined text-5xl mb-3 block"
+            style={{ color: "var(--outline-variant)" }}
+          >
+            task_alt
+          </span>
+          <p className="text-body-md font-semibold mb-1">
+            {filter === "pending" ? "No pending requests" : "No leave requests"}
+          </p>
+          <p className="text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
+            {filter === "pending"
+              ? "You're all caught up."
+              : "Nothing has been submitted yet."}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

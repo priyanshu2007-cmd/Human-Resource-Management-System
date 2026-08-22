@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { EmployeeEditDetails } from "./edit-details";
 
 export default async function AdminEmployeeDetailPage({
   params,
@@ -156,7 +157,7 @@ export default async function AdminEmployeeDetailPage({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t" style={{ borderColor: "var(--outline-variant)" }}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t" style={{ borderColor: "var(--outline-variant)" }}>
           <div>
             <p className="font-mono text-label-caps uppercase mb-1" style={{ color: "var(--on-surface-variant)" }}>
               Login ID
@@ -168,12 +169,6 @@ export default async function AdminEmployeeDetailPage({
               Email
             </p>
             <p className="text-body-sm truncate">{employee.email}</p>
-          </div>
-          <div>
-            <p className="font-mono text-label-caps uppercase mb-1" style={{ color: "var(--on-surface-variant)" }}>
-              Phone
-            </p>
-            <p className="text-body-sm">{employee.phone || "—"}</p>
           </div>
           <div>
             <p className="font-mono text-label-caps uppercase mb-1" style={{ color: "var(--on-surface-variant)" }}>
@@ -200,6 +195,13 @@ export default async function AdminEmployeeDetailPage({
           </div>
         )}
       </div>
+
+      <EmployeeEditDetails
+        employeeId={employee.id}
+        initialJobTitle={employee.job_title}
+        initialDepartment={employee.department}
+        initialPhone={employee.phone}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Attendance summary */}

@@ -141,6 +141,39 @@ export default function EmployeeAttendance() {
   const isCheckedIn = todayRecord?.check_in && !todayRecord?.check_out;
   const isCheckedOut = todayRecord?.check_in && todayRecord?.check_out;
 
+  const weekPresent = weekRecords.filter((r) => r.status === "present").length;
+  const weekHalfDay = weekRecords.filter((r) => r.status === "half-day").length;
+  const weekAbsentOrLeave = weekRecords.filter(
+    (r) => r.status === "absent" || r.status === "leave"
+  ).length;
+
+  const summaryStats = [
+    {
+      label: "Total",
+      value: weekRecords.length,
+      icon: "calendar_month",
+      color: "var(--primary)",
+    },
+    {
+      label: "Present",
+      value: weekPresent,
+      icon: "check_circle",
+      color: "var(--status-approved)",
+    },
+    {
+      label: "Half-day",
+      value: weekHalfDay,
+      icon: "schedule",
+      color: "var(--status-pending)",
+    },
+    {
+      label: "Absent / Leave",
+      value: weekAbsentOrLeave,
+      icon: "event_busy",
+      color: "var(--status-rejected)",
+    },
+  ];
+
   const todayFormatted = new Date().toLocaleDateString("en-US", {
     weekday: "short",
     day: "numeric",
@@ -231,6 +264,36 @@ export default function EmployeeAttendance() {
             You&apos;re done for today
           </div>
         )}
+      </div>
+
+      {/* Summary stat row */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        {summaryStats.map((stat) => (
+          <div
+            key={stat.label}
+            className="border rounded-lg p-4"
+            style={{
+              background: "var(--surface-container-lowest)",
+              borderColor: "var(--outline-variant)",
+            }}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span
+                className="material-symbols-outlined text-xl"
+                style={{ color: stat.color }}
+              >
+                {stat.icon}
+              </span>
+              <span
+                className="font-mono text-label-caps uppercase"
+                style={{ color: "var(--on-surface-variant)" }}
+              >
+                {stat.label}
+              </span>
+            </div>
+            <p className="text-headline-lg font-bold">{stat.value}</p>
+          </div>
+        ))}
       </div>
 
       {/* Weekly view */}
