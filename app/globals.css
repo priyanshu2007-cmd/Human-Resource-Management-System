@@ -1,0 +1,187 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-hanken);
+  --font-mono: var(--font-jetbrains);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--on-primary);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--on-secondary);
+  --color-muted: var(--surface-container-high);
+  --color-muted-foreground: var(--on-surface-variant);
+  --color-accent: var(--surface-container-highest);
+  --color-accent-foreground: var(--on-surface);
+  --color-destructive: var(--error);
+  --color-destructive-foreground: var(--on-error);
+  --color-border: var(--outline-variant);
+  --color-input: var(--outline-variant);
+  --color-ring: var(--primary);
+  
+  --color-popover: var(--surface-container-lowest);
+  --color-popover-foreground: var(--on-surface);
+  --color-card: var(--surface-container-lowest);
+  --color-card-foreground: var(--on-surface);
+
+  --color-sidebar: var(--surface-container-low);
+  --color-sidebar-foreground: var(--on-surface);
+  --color-sidebar-primary: var(--primary);
+  --color-sidebar-primary-foreground: var(--on-primary);
+  --color-sidebar-accent: var(--surface-container-highest);
+  --color-sidebar-accent-foreground: var(--on-surface);
+  --color-sidebar-border: var(--outline-variant);
+  --color-sidebar-ring: var(--primary);
+  
+  --color-chart-1: var(--primary);
+  --color-chart-2: var(--status-approved);
+  --color-chart-3: var(--status-pending);
+  --color-chart-4: var(--status-rejected);
+  --color-chart-5: var(--outline);
+
+  /* Dayflow status colors */
+  --color-success: var(--status-approved);
+  --color-success-foreground: #ffffff;
+  --color-success-soft: rgba(34, 197, 94, 0.15);
+  --color-warning: var(--status-pending);
+  --color-warning-soft: rgba(234, 179, 8, 0.15);
+  --color-danger: var(--status-rejected);
+  --color-danger-soft: rgba(239, 68, 68, 0.15);
+
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  
+  /* Font size utilities mapped to the design system */
+  --font-size-headline-xl: 36px;
+  --font-size-headline-xl--line-height: 44px;
+  --font-size-headline-xl--letter-spacing: -0.02em;
+  --font-size-headline-xl--font-weight: 700;
+
+  --font-size-headline-lg: 28px;
+  --font-size-headline-lg--line-height: 36px;
+  --font-size-headline-lg--font-weight: 600;
+
+  --font-size-headline-lg-mobile: 24px;
+  --font-size-headline-lg-mobile--line-height: 32px;
+  --font-size-headline-lg-mobile--font-weight: 600;
+
+  --font-size-title-md: 18px;
+  --font-size-title-md--line-height: 24px;
+  --font-size-title-md--font-weight: 600;
+
+  --font-size-body-md: 16px;
+  --font-size-body-md--line-height: 24px;
+  --font-size-body-md--font-weight: 400;
+
+  --font-size-body-sm: 14px;
+  --font-size-body-sm--line-height: 20px;
+  --font-size-body-sm--font-weight: 400;
+
+  --font-size-label-caps: 12px;
+  --font-size-label-caps--line-height: 16px;
+  --font-size-label-caps--letter-spacing: 0.05em;
+  --font-size-label-caps--font-weight: 500;
+}
+
+:root {
+  /* Material Design 3 surface hierarchy and palette - Light Mode */
+  --primary: #630ed4;
+  --on-primary: #ffffff;
+  --primary-container: #7c3aed;
+  --on-primary-container: #ede0ff;
+  
+  --secondary: #6f2ae4;
+  --on-secondary: #ffffff;
+  --secondary-container: #894cfe;
+  --on-secondary-container: #fffbff;
+  
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f3f3f3;
+  --surface-container: #eeeeee;
+  --surface-container-high: #e8e8e8;
+  --surface-container-highest: #e2e2e2;
+  
+  --surface-tint: #732ee4;
+  
+  --background: #f9f9f9;
+  --on-background: #1a1c1c;
+  --surface: #f9f9f9;
+  --on-surface: #1a1c1c;
+  --on-surface-variant: #4a4455;
+  
+  --outline: #7b7487;
+  --outline-variant: #ccc3d8;
+  
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+  
+  --status-approved: #22c55e;
+  --status-pending: #eab308;
+  --status-rejected: #ef4444;
+
+  --radius: 0.25rem;
+}
+
+.dark {
+  /* Derived Dark Mode - mapping to MD3 principles */
+  --primary: #d2bbff;
+  --on-primary: #25005a;
+  --primary-container: #5a00c6;
+  --on-primary-container: #ede0ff;
+  
+  --secondary: #d2bcff;
+  --on-secondary: #24005b;
+  --secondary-container: #5800c7;
+  --on-secondary-container: #fffbff;
+  
+  --surface-container-lowest: #0f172a;
+  --surface-container-low: #1e293b;
+  --surface-container: #334155;
+  --surface-container-high: #475569;
+  --surface-container-highest: #64748b;
+  
+  --surface-tint: #d2bbff;
+  
+  --background: #0f172a;
+  --on-background: #f1f1f1;
+  --surface: #0f172a;
+  --on-surface: #f1f1f1;
+  --on-surface-variant: #ccc3d8;
+  
+  --outline: #938f99;
+  --outline-variant: #49454f;
+  
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --error-container: #93000a;
+  --on-error-container: #ffdad6;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--outline-variant);
+    border-radius: 8px;
+  }
+}
