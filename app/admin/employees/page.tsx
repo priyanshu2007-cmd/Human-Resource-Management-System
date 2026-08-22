@@ -123,17 +123,10 @@ export default async function AdminEmployeesPage({
               <Link
                 key={emp.id}
                 href={`/admin/employees/${emp.id}`}
-                className="relative border rounded-xl p-5 transition-colors"
+                className="relative border rounded-xl p-5 transition-colors border-[var(--outline-variant)] hover:border-[var(--primary)]"
                 style={{
                   background: "var(--surface-container-lowest)",
-                  borderColor: "var(--outline-variant)",
                 }}
-                onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) =>
-                  (e.currentTarget.style.borderColor = "var(--primary)")
-                }
-                onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) =>
-                  (e.currentTarget.style.borderColor = "var(--outline-variant)")
-                }
               >
                 <span
                   className="absolute top-4 right-4 w-2.5 h-2.5 rounded-full"

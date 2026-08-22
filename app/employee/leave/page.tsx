@@ -2,20 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
+import type { Tables } from "@/lib/types/database.types";
 
 export default function EmployeeLeavePage() {
-  const [requests, setRequests] = useState<
-    Array<{
-      id: string;
-      leave_type: string;
-      start_date: string;
-      end_date: string;
-      status: string;
-      remarks: string | null;
-      admin_comment: string | null;
-      created_at: string;
-    }>
-  >([]);
+  const [requests, setRequests] = useState<Tables<"leave_requests">[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);

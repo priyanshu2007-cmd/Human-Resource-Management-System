@@ -145,15 +145,8 @@ export default async function AdminDashboard() {
                 <Link
                   key={emp.id}
                   href={`/admin/employees/${emp.id}`}
-                  className="flex items-center gap-4 px-5 py-4 transition-colors"
+                  className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-[var(--surface-container-low)]"
                   style={{ borderColor: "var(--outline-variant)" }}
-                  onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) =>
-                    (e.currentTarget.style.background =
-                      "var(--surface-container-low)")
-                  }
-                  onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) =>
-                    (e.currentTarget.style.background = "transparent")
-                  }
                 >
                   <div
                     className="w-10 h-10 rounded-full flex items-center justify-center text-body-sm font-semibold shrink-0"

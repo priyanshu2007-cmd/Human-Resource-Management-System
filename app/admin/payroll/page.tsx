@@ -111,8 +111,13 @@ export default function AdminPayrollPage() {
       .eq("id", user?.id ?? "")
       .single();
 
+    if (!adminProfile?.organization_id) {
+      setSaving(false);
+      return;
+    }
+
     const { error: insertError } = await supabase.from("salary_structures").insert({
-      organization_id: adminProfile?.organization_id,
+      organization_id: adminProfile.organization_id,
       user_id: empId,
       base_salary: base,
       allowances: parseFloat(allowances) || 0,

@@ -88,17 +88,10 @@ export default async function EmployeeDashboard() {
           <Link
             key={card.href}
             href={card.href}
-            className="border rounded-lg p-5 transition-colors group"
+            className="border rounded-lg p-5 transition-colors group border-[var(--outline-variant)] hover:border-[var(--primary)]"
             style={{
               background: "var(--surface-container-lowest)",
-              borderColor: "var(--outline-variant)",
             }}
-            onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) =>
-              (e.currentTarget.style.borderColor = "var(--primary)")
-            }
-            onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) =>
-              (e.currentTarget.style.borderColor = "var(--outline-variant)")
-            }
           >
             <span
               className="material-symbols-outlined text-2xl mb-3 block"

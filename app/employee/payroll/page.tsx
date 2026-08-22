@@ -6,8 +6,8 @@ import { createClient } from "@/lib/supabase/client";
 interface SalaryRecord {
   id: string;
   base_salary: number;
-  allowances: number;
-  deductions: number;
+  allowances: number | null;
+  deductions: number | null;
   effective_from: string;
 }
 
