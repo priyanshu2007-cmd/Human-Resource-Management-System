@@ -20,7 +20,7 @@ export default async function AdminLayout({
     .from("profiles")
     .select("full_name, role, employee_id, organization_id")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
   if (!profile || profile.role !== "admin") {
     redirect("/employee/dashboard");

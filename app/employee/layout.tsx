@@ -20,7 +20,7 @@ export default async function EmployeeLayout({
     .from("profiles")
     .select("full_name, role, employee_id")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
   if (!profile) {
     redirect("/sign-up");
