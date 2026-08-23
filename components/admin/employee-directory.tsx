@@ -76,7 +76,7 @@ export function EmployeeDirectory({ employees, initialView = "table" }: Props) {
   return (
     <div className="space-y-4">
       {/* View Toggle & Bulk Action Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl border bg-[var(--surface-container-lowest)] border-[var(--outline-variant)]">
+      <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl border bg-[var(--surface-container-lowest)] border-[var(--outline-variant)] shadow-sm dark:shadow-none transition-all">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setView("table")}
@@ -128,7 +128,7 @@ export function EmployeeDirectory({ employees, initialView = "table" }: Props) {
       {/* DENSE TABLE VIEW */}
       {view === "table" ? (
         <div
-          className="border rounded-2xl overflow-hidden shadow-sm"
+          className="border rounded-2xl overflow-hidden shadow-sm dark:shadow-none transition-all"
           style={{
             background: "var(--surface-container-lowest)",
             borderColor: "var(--outline-variant)",
@@ -275,7 +275,7 @@ export function EmployeeDirectory({ employees, initialView = "table" }: Props) {
             return (
               <div
                 key={emp.id}
-                className={`border rounded-2xl p-5 relative transition-all hover:shadow-md ${
+                className={`border rounded-2xl p-5 relative transition-all shadow-sm dark:shadow-none hover:shadow-md dark:hover:border-slate-700 ${
                   isSelected ? "ring-2 ring-[var(--primary)]" : ""
                 }`}
                 style={{
