@@ -25,7 +25,7 @@ export function Sidebar({ items, user }: SidebarProps) {
 
   return (
     <aside
-      className="hidden md:flex flex-col w-[260px] h-screen sticky top-0 border-r"
+      className="hidden md:flex flex-col w-[260px] h-screen sticky top-0 border-r transition-colors"
       style={{
         background: "var(--surface-container-lowest)",
         borderColor: "var(--outline-variant)",
@@ -37,26 +37,29 @@ export function Sidebar({ items, user }: SidebarProps) {
       </div>
 
       {/* Nav items */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
         {items.map((item) => {
           const isActive = pathname.startsWith(item.href);
           return (
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-md text-body-sm font-medium transition-colors"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-body-sm font-semibold transition-all"
               style={{
                 background: isActive ? "var(--primary)" : "transparent",
                 color: isActive ? "var(--on-primary)" : "var(--on-surface-variant)",
+                boxShadow: isActive ? "0 1px 2px 0 rgb(0 0 0 / 0.05)" : "none",
               }}
               onMouseEnter={(e) => {
                 if (!isActive) {
-                  e.currentTarget.style.background = "var(--surface-container-high)";
+                  e.currentTarget.style.background = "var(--surface-container)";
+                  e.currentTarget.style.color = "var(--on-surface)";
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isActive) {
                   e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "var(--on-surface-variant)";
                 }
               }}
             >
@@ -64,7 +67,7 @@ export function Sidebar({ items, user }: SidebarProps) {
                 className="material-symbols-outlined text-xl"
                 style={{
                   fontVariationSettings: isActive
-                    ? "'FILL' 1, 'wght' 500"
+                    ? "'FILL' 1, 'wght' 600"
                     : "'FILL' 0, 'wght' 400",
                 }}
               >
@@ -83,7 +86,7 @@ export function Sidebar({ items, user }: SidebarProps) {
       >
         <div className="flex items-center gap-3">
           <div
-            className="w-9 h-9 rounded-full flex items-center justify-center text-body-sm font-semibold shrink-0"
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-body-sm font-bold shrink-0 shadow-xs"
             style={{
               background: "var(--primary-container)",
               color: "var(--on-primary-container)",
@@ -92,9 +95,9 @@ export function Sidebar({ items, user }: SidebarProps) {
             {user.initials}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-body-sm font-semibold truncate">{user.name}</p>
+            <p className="text-body-sm font-bold truncate">{user.name}</p>
             <p
-              className="text-label-caps font-mono uppercase truncate"
+              className="text-label-caps font-mono uppercase truncate font-semibold"
               style={{ color: "var(--on-surface-variant)" }}
             >
               {user.role}

@@ -22,10 +22,10 @@ const DEFAULT_ATTENDANCE: AttendanceData = {
 
 export default function AttendanceDonutChart({ data = DEFAULT_ATTENDANCE }: Props) {
   const chartData = [
-    { name: "Present", value: data.present, color: "#10b981" },     // Emerald
-    { name: "Absent", value: data.absent, color: "#f43f5e" },       // Rose
-    { name: "Half-Day", value: data.halfDay, color: "#f59e0b" },    // Amber
-    { name: "On Leave", value: data.leave, color: "#3b82f6" },      // Blue
+    { name: "Present", value: data.present, color: "#10b981" },     // Emerald-500
+    { name: "Absent", value: data.absent, color: "#f43f5e" },       // Rose-500
+    { name: "Half-Day", value: data.halfDay, color: "#f59e0b" },    // Amber-500
+    { name: "On Leave", value: data.leave, color: "#6366f1" },      // Electric Indigo
   ].filter((item) => item.value > 0);
 
   const total = data.present + data.absent + data.halfDay + data.leave;
@@ -33,7 +33,7 @@ export default function AttendanceDonutChart({ data = DEFAULT_ATTENDANCE }: Prop
 
   return (
     <div
-      className="border rounded-2xl p-5 flex flex-col justify-between"
+      className="border rounded-2xl p-5 shadow-sm dark:shadow-none flex flex-col justify-between transition-all"
       style={{
         background: "var(--surface-container-lowest)",
         borderColor: "var(--outline-variant)",
@@ -42,7 +42,7 @@ export default function AttendanceDonutChart({ data = DEFAULT_ATTENDANCE }: Prop
       <div>
         <div className="flex items-center justify-between mb-1">
           <h3 className="text-title-md font-bold tracking-tight">Today&apos;s Attendance</h3>
-          <span className="font-mono text-label-caps uppercase px-2 py-0.5 rounded bg-[var(--surface-container-high)] text-[var(--on-surface-variant)] text-xs">
+          <span className="font-mono text-label-caps uppercase px-2 py-0.5 rounded-full bg-[var(--surface-container-high)] text-[var(--on-surface-variant)] text-xs font-semibold">
             Live
           </span>
         </div>
@@ -59,8 +59,9 @@ export default function AttendanceDonutChart({ data = DEFAULT_ATTENDANCE }: Prop
               contentStyle={{
                 background: "var(--surface-container-lowest, #ffffff)",
                 borderColor: "var(--outline-variant, #e2e8f0)",
-                borderRadius: "8px",
+                borderRadius: "12px",
                 fontSize: "12px",
+                boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
               }}
             />
             <Pie
@@ -105,7 +106,7 @@ export default function AttendanceDonutChart({ data = DEFAULT_ATTENDANCE }: Prop
           <span className="font-mono font-bold ml-auto">{data.halfDay}</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shrink-0" />
+          <div className="w-2.5 h-2.5 rounded-full bg-indigo-500 shrink-0" />
           <span className="text-[var(--on-surface-variant)]">On Leave:</span>
           <span className="font-mono font-bold ml-auto">{data.leave}</span>
         </div>
