@@ -5,7 +5,7 @@ export function Logo({ className, markSize = 32 }: { className?: string; markSiz
   return (
     <div className={cn("inline-flex items-center gap-2", className)}>
       <Image
-        src="/logo.png"
+        src="/dayflow-logo.png"
         alt="DayFlow Logo"
         width={markSize * 4} 
         height={markSize * 4}
