@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Auto Git Sync Daemon
-# Runs every 2 minutes (120s), checks for changes, commits, and pushes to GitHub.
+# Runs every 1 minute (60s), checks for changes, commits, and pushes to GitHub.
 
-INTERVAL=120
+INTERVAL=60
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 cd "$PROJECT_DIR" || exit 1
@@ -11,7 +11,7 @@ cd "$PROJECT_DIR" || exit 1
 echo "=================================================="
 echo "🚀 Dayflow Auto Git Sync Daemon Started"
 echo "📂 Repository: $PROJECT_DIR"
-echo "⏱️  Interval: Every 2 minutes (${INTERVAL}s)"
+echo "⏱️  Interval: Every 1 minute (${INTERVAL}s)"
 echo "=================================================="
 
 while true; do
@@ -43,11 +43,11 @@ while true; do
     if git push origin "$BRANCH"; then
       echo "[$TIMESTAMP] ✅ Successfully synced code to GitHub (branch: $BRANCH)."
     else
-      echo "[$TIMESTAMP] ⚠️  Push failed. Will retry next cycle in 2 minutes."
+      echo "[$TIMESTAMP] ⚠️  Push failed. Will retry next cycle in 1 minute."
     fi
   else
     TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-    echo "[$TIMESTAMP] 💤 No changes detected. Waiting 2 minutes..."
+    echo "[$TIMESTAMP] 💤 No changes detected. Waiting 1 minute..."
   fi
 
   sleep $INTERVAL
