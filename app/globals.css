@@ -93,89 +93,96 @@
 }
 
 :root {
-  /* Ultra-Premium Light Mode — Vibrant Indigo & Cool Slate-50 */
-  --primary: #6366f1;
-  --on-primary: #ffffff;
-  --primary-container: #e0e7ff;
-  --on-primary-container: #3730a3;
+  /* Electric Slate Theme — Light Mode */
+  --background: #F8FAFC;            /* bg-slate-50 */
+  --on-background: #0F172A;         /* text-slate-900 */
+  --foreground: #0F172A;
   
-  --secondary: #8b5cf6;
-  --on-secondary: #ffffff;
-  --secondary-container: #ede9fe;
-  --on-secondary-container: #4c1d95;
+  --surface-container-lowest: #FFFFFF;  /* bg-white for cards/surfaces */
+  --surface-container-low: #F8FAFC;     /* bg-slate-50 */
+  --surface-container: #F1F5F9;         /* bg-slate-100 */
+  --surface-container-high: #E2E8F0;    /* bg-slate-200 */
+  --surface-container-highest: #CBD5E1; /* bg-slate-300 */
+  --surface: #FFFFFF;
+  --on-surface: #0F172A;                /* text-slate-900 */
+  --on-surface-variant: #64748B;        /* text-slate-500 */
   
-  --surface-container-lowest: #ffffff;
-  --surface-container-low: #f8fafc;
-  --surface-container: #f1f5f9;
-  --surface-container-high: #e2e8f0;
-  --surface-container-highest: #cbd5e1;
+  --outline: #94A3B8;                   /* border-slate-400 */
+  --outline-variant: #E2E8F0;           /* border-slate-200 */
   
-  --surface-tint: #6366f1;
+  /* Primary Brand - Electric Indigo */
+  --primary: #6366F1;                   /* bg-indigo-500 */
+  --primary-hover: #4F46E5;             /* hover:bg-indigo-600 */
+  --on-primary: #FFFFFF;
+  --primary-container: #E0E7FF;         /* bg-indigo-100 */
+  --on-primary-container: #3730A3;      /* text-indigo-900 */
   
-  --background: #f8fafc;
-  --on-background: #0f172a;
-  --foreground: #0f172a;
-  --surface: #ffffff;
-  --on-surface: #0f172a;
-  --on-surface-variant: #64748b;
+  --secondary: #8B5CF6;                 /* bg-violet-500 */
+  --on-secondary: #FFFFFF;
+  --secondary-container: #EDE9FE;
+  --on-secondary-container: #4C1D95;
   
-  --outline: #94a3b8;
-  --outline-variant: #e2e8f0;
+  --surface-tint: #6366F1;
   
-  --error: #f43f5e;
-  --on-error: #ffffff;
-  --error-container: #ffe4e6;
+  --error: #F43F5E;                     /* Rose-500 */
+  --on-error: #FFFFFF;
+  --error-container: #FFE4E6;
   --on-error-container: #881337;
   
   /* Status Badges */
-  --status-approved: #10b981;
-  --status-pending: #f59e0b;
-  --status-rejected: #f43f5e;
-  --status-blue: #3b82f6;
+  --status-approved: #10B981;           /* Emerald-500 */
+  --status-pending: #F59E0B;            /* Amber-500 */
+  --status-rejected: #F43F5E;           /* Rose-500 */
+  --status-blue: #3B82F6;               /* Blue-500 */
 
+  --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
   --radius: 0.75rem;
 }
 
 .dark {
-  /* Ultra-Premium Dark Mode — Deep Slate-950 & Indigo Accents */
-  --primary: #818cf8;
-  --on-primary: #0f172a;
-  --primary-container: #312e81;
-  --on-primary-container: #e0e7ff;
+  /* Electric Slate Theme — Dark Mode */
+  --background: #020617;            /* bg-slate-950 */
+  --on-background: #F8FAFC;         /* text-slate-50 */
+  --foreground: #F8FAFC;
   
-  --secondary: #a78bfa;
-  --on-secondary: #0f172a;
-  --secondary-container: #4c1d95;
-  --on-secondary-container: #ede9fe;
+  --surface-container-lowest: #0F172A;  /* bg-slate-900 for cards */
+  --surface-container-low: #0F172A;     /* bg-slate-900 */
+  --surface-container: #1E293B;         /* bg-slate-800 */
+  --surface-container-high: #1E293B;    /* bg-slate-800 */
+  --surface-container-highest: #334155; /* bg-slate-700 */
+  --surface: #0F172A;
+  --on-surface: #F8FAFC;                /* text-slate-50 */
+  --on-surface-variant: #94A3B8;        /* text-slate-400 */
   
-  --surface-container-lowest: #0f172a;
-  --surface-container-low: #1e293b;
-  --surface-container: #1e293b;
-  --surface-container-high: #334155;
-  --surface-container-highest: #475569;
+  --outline: #64748B;                   /* border-slate-500 */
+  --outline-variant: #1E293B;           /* border-slate-800 */
   
-  --surface-tint: #818cf8;
+  /* Primary Brand - Electric Indigo Dark */
+  --primary: #818CF8;                   /* bg-indigo-400 */
+  --primary-hover: #6366F1;             /* hover:bg-indigo-500 */
+  --on-primary: #020617;                /* text-slate-950 */
+  --primary-container: #1E1B4B;         /* bg-indigo-950 */
+  --on-primary-container: #E0E7FF;      /* text-indigo-100 */
   
-  --background: #020617;
-  --on-background: #f8fafc;
-  --foreground: #f8fafc;
-  --surface: #0f172a;
-  --on-surface: #f8fafc;
-  --on-surface-variant: #94a3b8;
+  --secondary: #A78BFA;
+  --on-secondary: #020617;
+  --secondary-container: #2E1065;
+  --on-secondary-container: #EDE9FE;
   
-  --outline: #64748b;
-  --outline-variant: #1e293b;
+  --surface-tint: #818CF8;
   
-  --error: #fb7185;
+  --error: #FB7185;
   --on-error: #881337;
-  --error-container: #4c0519;
-  --on-error-container: #ffe4e6;
+  --error-container: #4C0519;
+  --on-error-container: #FFE4E6;
   
   /* Status Badges */
-  --status-approved: #34d399;
-  --status-pending: #fbbf24;
-  --status-rejected: #fb7185;
-  --status-blue: #60a5fa;
+  --status-approved: #34D399;           /* Emerald-400 */
+  --status-pending: #FBBF24;            /* Amber-400 */
+  --status-rejected: #FB7185;           /* Rose-400 */
+  --status-blue: #60A5FA;               /* Blue-400 */
+
+  --card-shadow: none;
 }
 
 @layer base {
@@ -189,6 +196,15 @@
   html {
     @apply font-sans;
   }
+  
+  /* Electric Slate Card Styling */
+  .electric-card {
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    box-shadow: var(--card-shadow);
+    border-radius: var(--radius-2xl);
+  }
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;

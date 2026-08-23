@@ -44,7 +44,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
     const data = payload[0].payload;
     return (
       <div
-        className="rounded-lg p-3 shadow-xl border text-xs"
+        className="rounded-xl p-3 shadow-lg border text-xs"
         style={{
           background: "var(--surface-container-lowest, #ffffff)",
           borderColor: "var(--outline-variant, #e2e8f0)",
@@ -53,7 +53,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
       >
         <p className="font-semibold text-body-sm mb-1">{label}</p>
         <p className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[var(--primary,#6366f1)]" />
+          <span className="w-2 h-2 rounded-full bg-[#6366f1]" />
           <span className="font-medium">Total Spend:</span>
           <span className="font-mono font-bold">₹{data.amount.toLocaleString()}</span>
         </p>
@@ -69,7 +69,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
 export default function PayrollTrendChart({ data = DEFAULT_DATA }: Props) {
   return (
     <div
-      className="border rounded-2xl p-5"
+      className="border rounded-2xl p-5 shadow-sm dark:shadow-none transition-all"
       style={{
         background: "var(--surface-container-lowest)",
         borderColor: "var(--outline-variant)",
@@ -82,7 +82,7 @@ export default function PayrollTrendChart({ data = DEFAULT_DATA }: Props) {
             Monthly salary distribution and growth over last 6 months
           </p>
         </div>
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
           <span className="material-symbols-outlined text-sm">trending_up</span>
           +8.8% Growth
         </div>
@@ -90,11 +90,11 @@ export default function PayrollTrendChart({ data = DEFAULT_DATA }: Props) {
 
       <div className="h-[260px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <AreaChart data={data} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
             <defs>
               <linearGradient id="payrollGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--primary, #630ed4)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="var(--primary, #630ed4)" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.35} />
+                <stop offset="95%" stopColor="#6366f1" stopOpacity={0.0} />
               </linearGradient>
             </defs>
             <CartesianGrid
@@ -119,7 +119,7 @@ export default function PayrollTrendChart({ data = DEFAULT_DATA }: Props) {
             <Area
               type="monotone"
               dataKey="amount"
-              stroke="var(--primary, #630ed4)"
+              stroke="#6366f1"
               strokeWidth={3}
               fillOpacity={1}
               fill="url(#payrollGradient)"
