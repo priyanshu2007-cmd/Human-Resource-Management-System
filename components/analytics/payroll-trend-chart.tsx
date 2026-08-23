@@ -1,0 +1,132 @@
+"use client";
+
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
+interface PayrollPoint {
+  month: string;
+  amount: number;
+  employees: number;
+}
+
+interface Props {
+  data?: PayrollPoint[];
+}
+
+const DEFAULT_DATA: PayrollPoint[] = [
+  { month: "Mar", amount: 48500, employees: 14 },
+  { month: "Apr", amount: 52000, employees: 15 },
+  { month: "May", amount: 54200, employees: 16 },
+  { month: "Jun", amount: 59000, employees: 18 },
+  { month: "Jul", amount: 62500, employees: 19 },
+  { month: "Aug", amount: 68000, employees: 20 },
+];
+
+function formatCurrency(val: number): string {
+  return `$${(val / 1000).toFixed(1)}k`;
+}
+
+interface TooltipProps {
+  active?: boolean;
+  payload?: Array<{ value: number; payload: PayrollPoint }>;
+  label?: string;
+}
+
+function CustomTooltip({ active, payload, label }: TooltipProps) {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div
+        className="rounded-lg p-3 shadow-xl border text-xs"
+        style={{
+          background: "var(--surface-container-lowest, #ffffff)",
+          borderColor: "var(--outline-variant, #e2e8f0)",
+          color: "var(--on-surface, #0f172a)",
+        }}
+      >
+        <p className="font-semibold text-body-sm mb-1">{label}</p>
+        <p className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-[var(--primary,#630ed4)]" />
+          <span className="font-medium">Total Spend:</span>
+          <span className="font-mono font-bold">${data.amount.toLocaleString()}</span>
+        </p>
+        <p className="text-[var(--on-surface-variant,#64748b)] mt-0.5">
+          {data.employees} Active Employees
+        </p>
+      </div>
+    );
+  }
+  return null;
+}
+
+export default function PayrollTrendChart({ data = DEFAULT_DATA }: Props) {
+  return (
+    <div
+      className="border rounded-2xl p-5"
+      style={{
+        background: "var(--surface-container-lowest)",
+        borderColor: "var(--outline-variant)",
+      }}
+    >
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h3 className="text-title-md font-bold tracking-tight">Payroll Expense Trend</h3>
+          <p className="text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
+            Monthly salary distribution and growth over last 6 months
+          </p>
+        </div>
+        <div className="flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <span className="material-symbols-outlined text-sm">trending_up</span>
+          +8.8% Growth
+        </div>
+      </div>
+
+      <div className="h-[260px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <defs>
+              <linearGradient id="payrollGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="var(--primary, #630ed4)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="var(--primary, #630ed4)" stopOpacity={0.0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+              stroke="var(--outline-variant, #e2e8f0)"
+              opacity={0.6}
+            />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tick={{ fill: "var(--on-surface-variant, #64748b)", fontSize: 12 }}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={formatCurrency}
+              tick={{ fill: "var(--on-surface-variant, #64748b)", fontSize: 12 }}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Area
+              type="monotone"
+              dataKey="amount"
+              stroke="var(--primary, #630ed4)"
+              strokeWidth={3}
+              fillOpacity={1}
+              fill="url(#payrollGradient)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
