@@ -69,6 +69,24 @@ export default async function AdminDashboard() {
   const recentPendingLeaves =
     (rawRecentPendingLeaves as unknown as PendingLeaveRow[]) || [];
 
+  // Today's attendance anomalies (absent, half-day) for the quick-action table
+  interface AnomalyRow {
+    user_id: string;
+    status: string;
+    profiles: { full_name: string; employee_id: string; department: string | null } | null;
+  }
+
+  const { data: rawAnomalies } = await supabase
+    .from("attendance")
+    .select("user_id, status, profiles(full_name, employee_id, department)")
+    .eq("organization_id", orgId ?? "")
+    .eq("date", today)
+    .in("status", ["absent", "half-day", "leave"])
+    .order("created_at", { ascending: false })
+    .limit(5);
+
+  const anomalies = (rawAnomalies as unknown as AnomalyRow[]) || [];
+
   const attendanceStats = [
     {
       label: "Total",
@@ -271,6 +289,66 @@ export default async function AdminDashboard() {
           )}
         </div>
       </div>
+
+      {/* Quick-action: Today's Anomalies */}
+      {anomalies.length > 0 && (
+        <div
+          className="border rounded-lg overflow-hidden mb-8"
+          style={{
+            background: "var(--surface-container-lowest)",
+            borderColor: "var(--outline-variant)",
+          }}
+        >
+          <div className="px-5 py-3 border-b flex items-center justify-between" style={{ borderColor: "var(--outline-variant)" }}>
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-lg" style={{ color: "var(--status-rejected)" }}>warning</span>
+              <h2 className="text-body-md font-semibold">Today&apos;s Attendance Anomalies</h2>
+            </div>
+            <Link
+              href={`/admin/attendance?date=${today}&status=absent`}
+              className="text-body-sm font-medium"
+              style={{ color: "var(--primary)" }}
+            >
+              View All →
+            </Link>
+          </div>
+          <div className="divide-y" style={{ borderColor: "var(--outline-variant)" }}>
+            {anomalies.map((a) => (
+              <div
+                key={a.user_id}
+                className="flex items-center justify-between px-5 py-3"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold"
+                    style={{
+                      background: "var(--primary-container)",
+                      color: "var(--on-primary-container)",
+                    }}
+                  >
+                    {(a.profiles?.full_name || "?").split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="text-body-sm font-semibold">{a.profiles?.full_name || "Unknown"}</p>
+                    <p className="text-xs" style={{ color: "var(--on-surface-variant)" }}>
+                      {a.profiles?.department || "No department"}
+                    </p>
+                  </div>
+                </div>
+                <span
+                  className="font-mono text-label-caps uppercase px-2 py-0.5 rounded-sm text-xs"
+                  style={{
+                    color: a.status === "absent" ? "var(--status-rejected)" : a.status === "half-day" ? "var(--status-pending)" : "var(--outline)",
+                    background: a.status === "absent" ? "rgba(239,68,68,0.1)" : a.status === "half-day" ? "rgba(234,179,8,0.1)" : "rgba(0,0,0,0.05)",
+                  }}
+                >
+                  {a.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Employee list */}
       <div

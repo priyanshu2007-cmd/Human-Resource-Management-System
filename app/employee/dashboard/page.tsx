@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import { DashboardFastActions } from "@/components/shared/dashboard-fast-actions";
 
 export default async function EmployeeDashboard() {
   const supabase = await createClient();
@@ -9,7 +10,7 @@ export default async function EmployeeDashboard() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("full_name, employee_id, job_title, department")
+    .select("full_name, employee_id, job_title, department, organization_id")
     .eq("id", user?.id ?? "")
     .single();
 
@@ -81,6 +82,15 @@ export default async function EmployeeDashboard() {
           {profile?.department ? ` · ${profile.department}` : ""}
         </p>
       </div>
+
+      {/* Fast Actions: Check In/Out + Apply Leave */}
+      <DashboardFastActions
+        userId={user?.id ?? ""}
+        orgId={profile?.organization_id ?? ""}
+        todayStatus={todayAttendance?.status ?? null}
+        checkIn={todayAttendance?.check_in ?? null}
+        checkOut={todayAttendance?.check_out ?? null}
+      />
 
       {/* Quick access cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

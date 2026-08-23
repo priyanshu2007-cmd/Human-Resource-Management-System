@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 };
 
 import { DemoSwitcher } from "@/components/shared/demo-switcher";
+import { ToastProvider } from "@/components/shared/toast-provider";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -44,7 +45,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full flex flex-col">
         {children}
         <DemoSwitcher />
+        <ToastProvider />
       </body>
     </html>
   );
 }
+

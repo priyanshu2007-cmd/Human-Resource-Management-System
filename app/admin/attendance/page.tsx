@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { ServerPagination } from "@/components/shared/pagination";
+
+const PAGE_SIZE = 15;
 
 interface AttendanceRow {
   id: string;
@@ -18,9 +21,10 @@ interface AttendanceRow {
 export default async function AdminAttendancePage({
   searchParams,
 }: {
-  searchParams: Promise<{ date?: string; status?: string; q?: string }>;
+  searchParams: Promise<{ date?: string; status?: string; q?: string; page?: string }>;
 }) {
-  const { date, status, q } = await searchParams;
+  const { date, status, q, page } = await searchParams;
+  const currentPage = Math.max(1, parseInt(page || "1", 10));
   const supabase = await createClient();
 
   const {
@@ -66,7 +70,8 @@ export default async function AdminAttendancePage({
   let query = supabase
     .from("attendance")
     .select(
-      "id, date, check_in, check_out, status, user_id, profiles!inner(full_name, employee_id, department)"
+      "id, date, check_in, check_out, status, user_id, profiles!inner(full_name, employee_id, department)",
+      { count: "exact" }
     )
     .eq("organization_id", orgId ?? "")
     .eq("date", selectedDate)
@@ -76,7 +81,12 @@ export default async function AdminAttendancePage({
     query = query.eq("status", status);
   }
 
-  const { data: rawRecords } = await query;
+  const from = (currentPage - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+  query = query.range(from, to);
+
+  const { data: rawRecords, count: totalCount } = await query;
+  const totalPages = Math.ceil((totalCount ?? 0) / PAGE_SIZE);
   let records = (rawRecords as unknown as AttendanceRow[]) || [];
 
   if (q && q.trim()) {
@@ -388,6 +398,18 @@ export default async function AdminAttendancePage({
           </div>
         )}
       </div>
+
+      {/* Pagination */}
+      <ServerPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        baseHref="/admin/attendance"
+        searchParams={{
+          ...(date ? { date } : {}),
+          ...(status ? { status } : {}),
+          ...(q ? { q } : {}),
+        }}
+      />
     </div>
   );
 }

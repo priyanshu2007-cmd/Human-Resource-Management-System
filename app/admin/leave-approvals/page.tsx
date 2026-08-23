@@ -2,6 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { Pagination } from "@/components/shared/pagination";
+import { toast } from "sonner";
+
+const PAGE_SIZE = 10;
 
 interface LeaveRequestRow {
   id: string;
@@ -28,6 +32,7 @@ export default function AdminLeaveApprovalsPage() {
   const [requests, setRequests] = useState<LeaveRequestRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<Filter>("pending");
+  const [currentPage, setCurrentPage] = useState(1);
   const [actioningId, setActioningId] = useState<string | null>(null);
   const [commentDraft, setCommentDraft] = useState<Record<string, string>>({});
   const [rejectingId, setRejectingId] = useState<string | null>(null);
@@ -50,6 +55,7 @@ export default function AdminLeaveApprovalsPage() {
 
     const { data } = await query;
     setRequests((data as unknown as LeaveRequestRow[]) || []);
+    setCurrentPage(1);
     setLoading(false);
   }, [filter]);
 
@@ -175,7 +181,7 @@ export default function AdminLeaveApprovalsPage() {
         </div>
       ) : requests.length > 0 ? (
         <div className="space-y-3">
-          {requests.map((req) => {
+          {requests.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE).map((req) => {
             const nameParts = (req.profiles?.full_name || "").split(" ");
             const initials = (
               (nameParts[0]?.[0] || "") +
@@ -310,6 +316,13 @@ export default function AdminLeaveApprovalsPage() {
           </p>
         </div>
       )}
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(requests.length / PAGE_SIZE)}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 interface SalaryRecord {
@@ -15,6 +15,11 @@ export default function EmployeePayrollPage() {
   const [records, setRecords] = useState<SalaryRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showPayslip, setShowPayslip] = useState(false);
+  const [employeeName, setEmployeeName] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
+  const [department, setDepartment] = useState("");
+  const payslipRef = useRef<HTMLDivElement>(null);
 
   const fetchData = useCallback(async () => {
     const supabase = createClient();
@@ -37,6 +42,18 @@ export default function EmployeePayrollPage() {
 
     setRecords(data || []);
     setLoading(false);
+
+    // Fetch profile info for payslip header
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("full_name, employee_id, department")
+      .eq("id", user.id)
+      .single();
+    if (profile) {
+      setEmployeeName(profile.full_name || "");
+      setEmployeeId(profile.employee_id || "");
+      setDepartment(profile.department || "");
+    }
   }, []);
 
   useEffect(() => {
@@ -60,6 +77,40 @@ export default function EmployeePayrollPage() {
 
   function netPay(r: SalaryRecord): number {
     return r.base_salary + (r.allowances || 0) - (r.deductions || 0);
+  }
+
+  function handlePrint() {
+    const content = payslipRef.current;
+    if (!content) return;
+    const win = window.open("", "_blank");
+    if (!win) return;
+    win.document.write(`
+      <html>
+        <head>
+          <title>Payslip - ${employeeName}</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 40px; color: #1a1c1c; }
+            table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+            th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e2e2e2; font-size: 14px; }
+            th { font-weight: 600; color: #4a4455; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+            .header { text-align: center; margin-bottom: 32px; }
+            .header h1 { font-size: 24px; margin: 0; }
+            .header p { color: #7b7487; margin: 4px 0; font-size: 13px; }
+            .total { font-weight: 700; font-size: 16px; }
+            .positive { color: #12a46b; }
+            .negative { color: #d23a30; }
+            .net { color: #630ed4; }
+            hr { border: none; border-top: 2px solid #630ed4; margin: 24px 0; }
+            @media print { body { padding: 20px; } }
+          </style>
+        </head>
+        <body>
+          ${content.innerHTML}
+        </body>
+      </html>
+    `);
+    win.document.close();
+    win.print();
   }
 
   const current = records[0];
@@ -122,12 +173,25 @@ export default function EmployeePayrollPage() {
           >
             <div className="flex items-center justify-between mb-4">
               <p className="text-title-md font-semibold">Current Structure</p>
-              <span
-                className="font-mono text-label-caps uppercase"
-                style={{ color: "var(--on-surface-variant)" }}
-              >
-                Effective {formatDate(current.effective_from)}
-              </span>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setShowPayslip(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-body-sm font-semibold cursor-pointer transition-colors"
+                  style={{
+                    background: "var(--primary)",
+                    color: "var(--on-primary)",
+                  }}
+                >
+                  <span className="material-symbols-outlined text-base">receipt_long</span>
+                  View Payslip
+                </button>
+                <span
+                  className="font-mono text-label-caps uppercase"
+                  style={{ color: "var(--on-surface-variant)" }}
+                >
+                  Effective {formatDate(current.effective_from)}
+                </span>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
@@ -249,6 +313,109 @@ export default function EmployeePayrollPage() {
             )}
           </div>
         </>
+      )}
+
+      {/* Payslip Modal */}
+      {showPayslip && current && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.5)" }}
+          onClick={() => setShowPayslip(false)}
+        >
+          <div
+            className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-8 shadow-xl"
+            style={{
+              background: "var(--surface-container-lowest)",
+              border: "1px solid var(--outline-variant)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header with close & print */}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-title-md font-bold">Payslip</h2>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handlePrint}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-body-sm font-semibold cursor-pointer transition-colors"
+                  style={{
+                    background: "var(--primary)",
+                    color: "var(--on-primary)",
+                  }}
+                >
+                  <span className="material-symbols-outlined text-base">print</span>
+                  Print / Download
+                </button>
+                <button
+                  onClick={() => setShowPayslip(false)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-colors hover:bg-[var(--surface-container-high)]"
+                >
+                  <span className="material-symbols-outlined text-lg">close</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Printable content */}
+            <div ref={payslipRef}>
+              <div style={{ textAlign: "center", marginBottom: "24px" }}>
+                <h1 style={{ fontSize: "22px", fontWeight: 700, margin: 0 }}>Dayflow</h1>
+                <p style={{ color: "#7b7487", margin: "4px 0", fontSize: "13px" }}>Every workday, perfectly aligned.</p>
+                <p style={{ color: "#7b7487", margin: "4px 0", fontSize: "13px" }}>
+                  Payslip for {new Date(current.effective_from + "T00:00:00").toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                </p>
+              </div>
+
+              <hr style={{ border: "none", borderTop: "2px solid #630ed4", margin: "16px 0" }} />
+
+              <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "16px" }}>
+                <tbody>
+                  <tr>
+                    <td style={{ padding: "6px 14px", fontSize: "13px", color: "#7b7487" }}>Employee Name</td>
+                    <td style={{ padding: "6px 14px", fontSize: "14px", fontWeight: 600 }}>{employeeName}</td>
+                    <td style={{ padding: "6px 14px", fontSize: "13px", color: "#7b7487" }}>Employee ID</td>
+                    <td style={{ padding: "6px 14px", fontSize: "14px", fontWeight: 600, fontFamily: "monospace" }}>{employeeId}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: "6px 14px", fontSize: "13px", color: "#7b7487" }}>Department</td>
+                    <td style={{ padding: "6px 14px", fontSize: "14px", fontWeight: 600 }}>{department || "General"}</td>
+                    <td style={{ padding: "6px 14px", fontSize: "13px", color: "#7b7487" }}>Effective From</td>
+                    <td style={{ padding: "6px 14px", fontSize: "14px", fontWeight: 600 }}>{formatDate(current.effective_from)}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ borderBottom: "2px solid #e2e2e2" }}>
+                    <th style={{ padding: "10px 14px", textAlign: "left", fontSize: "11px", color: "#4a4455", textTransform: "uppercase" as const, letterSpacing: "0.05em" }}>Component</th>
+                    <th style={{ padding: "10px 14px", textAlign: "right", fontSize: "11px", color: "#4a4455", textTransform: "uppercase" as const, letterSpacing: "0.05em" }}>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ borderBottom: "1px solid #e2e2e2" }}>
+                    <td style={{ padding: "10px 14px", fontSize: "14px" }}>Base Salary</td>
+                    <td style={{ padding: "10px 14px", fontSize: "14px", textAlign: "right", fontFamily: "monospace" }}>{formatAmount(current.base_salary)}</td>
+                  </tr>
+                  <tr style={{ borderBottom: "1px solid #e2e2e2" }}>
+                    <td style={{ padding: "10px 14px", fontSize: "14px", color: "#12a46b" }}>Allowances</td>
+                    <td style={{ padding: "10px 14px", fontSize: "14px", textAlign: "right", fontFamily: "monospace", color: "#12a46b" }}>+{formatAmount(current.allowances || 0)}</td>
+                  </tr>
+                  <tr style={{ borderBottom: "1px solid #e2e2e2" }}>
+                    <td style={{ padding: "10px 14px", fontSize: "14px", color: "#d23a30" }}>Deductions</td>
+                    <td style={{ padding: "10px 14px", fontSize: "14px", textAlign: "right", fontFamily: "monospace", color: "#d23a30" }}>−{formatAmount(current.deductions || 0)}</td>
+                  </tr>
+                  <tr style={{ borderTop: "2px solid #630ed4" }}>
+                    <td style={{ padding: "12px 14px", fontSize: "16px", fontWeight: 700 }}>Net Pay</td>
+                    <td style={{ padding: "12px 14px", fontSize: "16px", fontWeight: 700, textAlign: "right", fontFamily: "monospace", color: "#630ed4" }}>{formatAmount(netPay(current))}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <p style={{ textAlign: "center", fontSize: "11px", color: "#7b7487", marginTop: "24px" }}>
+                This is a system-generated payslip. For any discrepancies, please contact your HR department.
+              </p>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

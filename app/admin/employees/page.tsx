@@ -1,13 +1,17 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { StatusBadge } from "@/components/shared/status-badge";
+import { ServerPagination } from "@/components/shared/pagination";
+
+const PAGE_SIZE = 12;
 
 export default async function AdminEmployeesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; status?: string; view?: string }>;
+  searchParams: Promise<{ q?: string; status?: string; view?: string; page?: string }>;
 }) {
-  const { q, status, view = "grid" } = await searchParams;
+  const { q, status, view = "grid", page } = await searchParams;
+  const currentPage = Math.max(1, parseInt(page || "1", 10));
   const supabase = await createClient();
 
   const {
@@ -25,7 +29,8 @@ export default async function AdminEmployeesPage({
   let query = supabase
     .from("profiles")
     .select(
-      "id, full_name, employee_id, email, phone, role, job_title, department, date_of_joining, must_change_password, profile_picture_url, location"
+      "id, full_name, employee_id, email, phone, role, job_title, department, date_of_joining, must_change_password, profile_picture_url, location",
+      { count: "exact" }
     )
     .eq("organization_id", orgId ?? "")
     .order("full_name", { ascending: true });
@@ -37,7 +42,12 @@ export default async function AdminEmployeesPage({
     );
   }
 
-  const { data: employees } = await query;
+  const from = (currentPage - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+  query = query.range(from, to);
+
+  const { data: employees, count: totalCount } = await query;
+  const totalPages = Math.ceil((totalCount ?? 0) / PAGE_SIZE);
 
   // Today's attendance status for each employee
   const today = new Date().toISOString().split("T")[0];
@@ -444,6 +454,18 @@ export default async function AdminEmployeesPage({
           </p>
         </div>
       )}
+
+      {/* Pagination */}
+      <ServerPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        baseHref="/admin/employees"
+        searchParams={{
+          ...(q ? { q } : {}),
+          ...(status ? { status } : {}),
+          ...(view !== "grid" ? { view } : {}),
+        }}
+      />
     </div>
   );
 }
