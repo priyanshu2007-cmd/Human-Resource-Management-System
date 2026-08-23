@@ -16,21 +16,60 @@ export default async function AdminDashboard() {
     .single();
 
   const orgId = profile?.organization_id;
-
-  // Fetch employee count
-  const { count: headcount } = await supabase
-    .from("profiles")
-    .select("*", { count: "exact", head: true })
-    .eq("organization_id", orgId ?? "");
-
-  // Today's attendance stats
   const today = new Date().toISOString().split("T")[0];
 
-  const { data: todayAttendance } = await supabase
-    .from("attendance")
-    .select("status")
-    .eq("organization_id", orgId ?? "")
-    .eq("date", today);
+  // Parallelize all independent queries
+  const [
+    headcountResult,
+    todayAttendanceResult,
+    pendingLeavesResult,
+    recentPendingLeavesResult,
+    anomaliesResult,
+    employeesResult,
+  ] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("*", { count: "exact", head: true })
+      .eq("organization_id", orgId ?? ""),
+    supabase
+      .from("attendance")
+      .select("status")
+      .eq("organization_id", orgId ?? "")
+      .eq("date", today),
+    supabase
+      .from("leave_requests")
+      .select("*", { count: "exact", head: true })
+      .eq("organization_id", orgId ?? "")
+      .eq("status", "pending"),
+    supabase
+      .from("leave_requests")
+      .select("id, leave_type, start_date, end_date, profiles(full_name)")
+      .eq("organization_id", orgId ?? "")
+      .eq("status", "pending")
+      .order("created_at", { ascending: false })
+      .limit(3),
+    supabase
+      .from("attendance")
+      .select("user_id, status, profiles(full_name, employee_id, department)")
+      .eq("organization_id", orgId ?? "")
+      .eq("date", today)
+      .in("status", ["absent", "half-day", "leave"])
+      .order("created_at", { ascending: false })
+      .limit(5),
+    supabase
+      .from("profiles")
+      .select("id, full_name, role, employee_id, job_title, department")
+      .eq("organization_id", orgId ?? "")
+      .order("created_at", { ascending: false })
+      .limit(8),
+  ]);
+
+  const { count: headcount } = headcountResult;
+  const { data: todayAttendance } = todayAttendanceResult;
+  const { count: pendingLeaves } = pendingLeavesResult;
+  const { data: rawRecentPendingLeaves } = recentPendingLeavesResult;
+  const { data: rawAnomalies } = anomaliesResult;
+  const { data: employees } = employeesResult;
 
   const presentCount =
     todayAttendance?.filter((a) => a.status === "present").length ?? 0;
@@ -42,14 +81,6 @@ export default async function AdminDashboard() {
     todayAttendance?.filter((a) => a.status === "leave").length ?? 0;
   const todayAttendanceTotal = todayAttendance?.length ?? 0;
 
-  // Pending leave requests
-  const { count: pendingLeaves } = await supabase
-    .from("leave_requests")
-    .select("*", { count: "exact", head: true })
-    .eq("organization_id", orgId ?? "")
-    .eq("status", "pending");
-
-  // A few most-recent pending leave requests, for the approvals widget
   interface PendingLeaveRow {
     id: string;
     leave_type: string;
@@ -58,32 +89,14 @@ export default async function AdminDashboard() {
     profiles: { full_name: string } | null;
   }
 
-  const { data: rawRecentPendingLeaves } = await supabase
-    .from("leave_requests")
-    .select("id, leave_type, start_date, end_date, profiles(full_name)")
-    .eq("organization_id", orgId ?? "")
-    .eq("status", "pending")
-    .order("created_at", { ascending: false })
-    .limit(3);
-
   const recentPendingLeaves =
     (rawRecentPendingLeaves as unknown as PendingLeaveRow[]) || [];
 
-  // Today's attendance anomalies (absent, half-day) for the quick-action table
   interface AnomalyRow {
     user_id: string;
     status: string;
     profiles: { full_name: string; employee_id: string; department: string | null } | null;
   }
-
-  const { data: rawAnomalies } = await supabase
-    .from("attendance")
-    .select("user_id, status, profiles(full_name, employee_id, department)")
-    .eq("organization_id", orgId ?? "")
-    .eq("date", today)
-    .in("status", ["absent", "half-day", "leave"])
-    .order("created_at", { ascending: false })
-    .limit(5);
 
   const anomalies = (rawAnomalies as unknown as AnomalyRow[]) || [];
 
@@ -113,14 +126,6 @@ export default async function AdminDashboard() {
       color: "var(--status-rejected)",
     },
   ];
-
-  // Recent employees
-  const { data: employees } = await supabase
-    .from("profiles")
-    .select("id, full_name, role, employee_id, job_title, department")
-    .eq("organization_id", orgId ?? "")
-    .order("created_at", { ascending: false })
-    .limit(8);
 
   const stats = [
     {

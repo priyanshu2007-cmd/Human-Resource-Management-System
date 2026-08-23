@@ -1,6 +1,23 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { EmployeeShell } from "./employee-shell";
+import { unstable_cache } from "next/cache";
+
+async function getUserProfile(userId: string) {
+  const supabase = await createClient();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, role, employee_id")
+    .eq("id", userId)
+    .single();
+  return profile;
+}
+
+const getCachedUserProfile = unstable_cache(
+  getUserProfile,
+  ["user-profile"],
+  { revalidate: 60, tags: ["user-profile"] }
+);
 
 export default async function EmployeeLayout({
   children,
@@ -14,11 +31,7 @@ export default async function EmployeeLayout({
 
   if (!user) redirect("/sign-in");
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("full_name, role, employee_id")
-    .eq("id", user.id)
-    .single();
+  const profile = await getCachedUserProfile(user.id);
 
   if (!profile) redirect("/sign-up");
 

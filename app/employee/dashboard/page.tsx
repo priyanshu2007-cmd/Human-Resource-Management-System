@@ -8,28 +8,34 @@ export default async function EmployeeDashboard() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("full_name, employee_id, job_title, department, organization_id")
-    .eq("id", user?.id ?? "")
-    .single();
+  const userId = user?.id ?? "";
 
-  // Today's attendance
+  // Parallelize independent queries
   const today = new Date().toISOString().split("T")[0];
-  const { data: todayAttendance } = await supabase
-    .from("attendance")
-    .select("status, check_in, check_out")
-    .eq("user_id", user?.id ?? "")
-    .eq("date", today)
-    .maybeSingle();
 
-  // Recent leave requests
-  const { data: recentLeaves } = await supabase
-    .from("leave_requests")
-    .select("id, leave_type, start_date, end_date, status")
-    .eq("user_id", user?.id ?? "")
-    .order("created_at", { ascending: false })
-    .limit(3);
+  const [profileResult, todayAttendanceResult, recentLeavesResult] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("full_name, employee_id, job_title, department, organization_id")
+      .eq("id", userId)
+      .single(),
+    supabase
+      .from("attendance")
+      .select("status, check_in, check_out")
+      .eq("user_id", userId)
+      .eq("date", today)
+      .maybeSingle(),
+    supabase
+      .from("leave_requests")
+      .select("id, leave_type, start_date, end_date, status")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(3),
+  ]);
+
+  const { data: profile } = profileResult;
+  const { data: todayAttendance } = todayAttendanceResult;
+  const { data: recentLeaves } = recentLeavesResult;
 
   const quickCards = [
     {
