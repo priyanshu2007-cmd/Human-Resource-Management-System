@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { DashboardAnalyticsWrapper } from "@/components/analytics/dashboard-analytics-wrapper";
+import { EmployeeContextSwitcher } from "@/components/admin/employee-context-switcher";
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
@@ -191,34 +192,7 @@ export default async function AdminDashboard() {
         </div>
         <div className="flex items-center gap-3">
           {/* Quick Context Switcher */}
-          {employees && employees.length > 0 && (
-            <div className="relative inline-block text-left">
-              <select
-                aria-label="Switch employee profile context"
-                onChange={(e) => {
-                  if (e.target.value) {
-                    window.location.href = `/admin/employees/${e.target.value}`;
-                  }
-                }}
-                defaultValue=""
-                className="px-3.5 py-2.5 rounded-xl border text-body-sm font-medium focus:outline-none cursor-pointer"
-                style={{
-                  background: "var(--surface-container-low)",
-                  borderColor: "var(--outline-variant)",
-                  color: "var(--on-surface)",
-                }}
-              >
-                <option value="" disabled>
-                  🔍 Jump to Employee…
-                </option>
-                {employees.map((emp) => (
-                  <option key={emp.id} value={emp.id}>
-                    {emp.full_name} ({emp.employee_id})
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          <EmployeeContextSwitcher employees={employees || []} />
 
           <Link
             href="/admin/employees/new"
