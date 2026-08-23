@@ -1,16 +1,16 @@
 ---
 name: auto-git-sync
-description: Runs a continuous background sync daemon that checks every 2 minutes for changes, stages them, creates Conventional Commits with timestamps, and pushes them to GitHub.
+description: Runs a continuous background sync daemon that checks every 1 minute for changes, stages them, creates Conventional Commits with timestamps, and pushes them to GitHub.
 ---
 
-# Auto Git Sync (2-Minute Recurring Upload)
+# Auto Git Sync (1-Minute Recurring Upload)
 
-This skill manages continuous, automated syncing of project code to GitHub every 2 minutes.
+This skill manages continuous, automated syncing of project code to GitHub every 1 minute.
 
 ## How it works
 
 1. **Daemon Script:** [`scripts/auto-sync-github.sh`](file:///Users/priyanshu/Documents/Odoo/scripts/auto-sync-github.sh)
-2. **Frequency:** Runs every 120 seconds.
+2. **Frequency:** Runs every 60 seconds (1 minute).
 3. **Behavior:**
    - Detects all created, modified, or deleted files.
    - Automatically stages changes (`git add -A`).
