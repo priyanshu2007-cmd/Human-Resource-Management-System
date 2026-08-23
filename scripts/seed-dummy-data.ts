@@ -451,12 +451,12 @@ async function main() {
   const twoMonthsAgo = new Date(today);
   twoMonthsAgo.setUTCDate(twoMonthsAgo.getUTCDate() - 60);
 
-  let attendanceRows: Database["public"]["Tables"]["attendance"]["Insert"][] = [];
+  const attendanceRows: Database["public"]["Tables"]["attendance"]["Insert"][] = [];
 
   for (const emp of EMPLOYEES) {
     const userId = profileIdByKey[emp.key];
     for (
-      let d = new Date(twoMonthsAgo);
+      const d = new Date(twoMonthsAgo);
       d <= today;
       d.setUTCDate(d.getUTCDate() + 1)
     ) {
@@ -523,7 +523,7 @@ async function main() {
     "Too many overlapping leave requests this week.",
   ];
 
-  let leaveRows: Database["public"]["Tables"]["leave_requests"]["Insert"][] = [];
+  const leaveRows: Database["public"]["Tables"]["leave_requests"]["Insert"][] = [];
 
   for (const emp of EMPLOYEES) {
     const userId = profileIdByKey[emp.key];

@@ -320,7 +320,7 @@ export default function AdminPayrollPage() {
             <span className="material-symbols-outlined text-lg">check_circle</span>
             {success}
           </span>
-          <button onClick={() => setSuccess(null)} className="text-sm font-bold cursor-pointer">
+          <button type="button" onClick={() => setSuccess(null)} className="text-sm font-bold cursor-pointer">
             ✕
           </button>
         </div>
@@ -679,6 +679,7 @@ export default function AdminPayrollPage() {
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() => setEditingEmp(null)}
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer hover:bg-black/10 dark:hover:bg-white/10"
               >

@@ -487,6 +487,7 @@ export default function EmployeeProfilePage() {
           const isActive = activeTab === tab.key;
           return (
             <button
+              type="button"
               key={tab.key}
               onClick={() => setActiveTab(tab.key as TabType)}
               className="flex items-center gap-2 px-4 py-3 border-b-2 font-semibold text-body-sm transition-all whitespace-nowrap cursor-pointer"
@@ -760,6 +761,7 @@ export default function EmployeeProfilePage() {
                     </div>
                   </div>
                   <button
+                    type="button"
                     onClick={() => handleViewDocument(doc)}
                     disabled={viewingDocId === doc.id}
                     className="px-3 py-1.5 text-body-sm font-semibold rounded-lg border border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-all cursor-pointer disabled:opacity-60"

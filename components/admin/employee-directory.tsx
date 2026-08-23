@@ -79,6 +79,7 @@ export function EmployeeDirectory({ employees, initialView = "table" }: Props) {
       <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl border bg-[var(--surface-container-lowest)] border-[var(--outline-variant)] shadow-sm dark:shadow-none transition-all">
         <div className="flex items-center gap-2">
           <button
+            type="button"
             onClick={() => setView("table")}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors ${
               view === "table"
@@ -90,6 +91,7 @@ export function EmployeeDirectory({ employees, initialView = "table" }: Props) {
             Dense Table
           </button>
           <button
+            type="button"
             onClick={() => setView("grid")}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors ${
               view === "grid"
@@ -109,6 +111,7 @@ export function EmployeeDirectory({ employees, initialView = "table" }: Props) {
               {selectedIds.size} Selected
             </span>
             <button
+              type="button"
               onClick={handleBulkExport}
               className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--surface-container-high)] hover:bg-[var(--surface-container-highest)] transition-colors cursor-pointer"
             >
@@ -116,6 +119,7 @@ export function EmployeeDirectory({ employees, initialView = "table" }: Props) {
               Export CSV
             </button>
             <button
+              type="button"
               onClick={() => setSelectedIds(new Set())}
               className="text-xs text-[var(--on-surface-variant)] hover:underline ml-1 cursor-pointer"
             >
@@ -223,6 +227,7 @@ export function EmployeeDirectory({ employees, initialView = "table" }: Props) {
                       </td>
                       <td className="p-4 text-right relative">
                         <button
+                          type="button"
                           onClick={() => setOpenDropdownId(isDropdownOpen ? null : emp.id)}
                           className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-[var(--surface-container-high)] transition-colors cursor-pointer ml-auto"
                         >

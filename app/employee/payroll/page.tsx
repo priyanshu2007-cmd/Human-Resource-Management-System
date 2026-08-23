@@ -178,6 +178,7 @@ export default function EmployeePayrollPage() {
               <p className="text-title-md font-semibold">Current Structure</p>
               <div className="flex items-center gap-3">
                 <button
+                  type="button"
                   onClick={() => setShowPayslip(true)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded text-body-sm font-semibold cursor-pointer transition-colors"
                   style={{
@@ -338,6 +339,7 @@ export default function EmployeePayrollPage() {
               <h2 className="text-title-md font-bold">Payslip</h2>
               <div className="flex items-center gap-2">
                 <button
+                  type="button"
                   onClick={handlePrint}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded text-body-sm font-semibold cursor-pointer transition-colors"
                   style={{
@@ -349,6 +351,7 @@ export default function EmployeePayrollPage() {
                   Print / Download
                 </button>
                 <button
+                  type="button"
                   onClick={() => setShowPayslip(false)}
                   className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-colors hover:bg-[var(--surface-container-high)]"
                 >

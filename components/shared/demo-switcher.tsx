@@ -48,6 +48,7 @@ export function DemoSwitcher() {
     <div className="fixed bottom-4 right-4 z-50">
       {!isOpen ? (
         <button
+          type="button"
           onClick={() => setIsOpen(true)}
           className="flex items-center gap-2 px-3.5 py-2 rounded-full shadow-lg text-body-sm font-semibold transition-all hover:scale-105 cursor-pointer border"
           style={{
@@ -87,6 +88,7 @@ export function DemoSwitcher() {
               <p className="text-body-sm font-bold">1-Click Demo Role Switcher</p>
             </div>
             <button
+              type="button"
               onClick={() => setIsOpen(false)}
               className="w-6 h-6 rounded-full flex items-center justify-center transition-colors cursor-pointer hover:bg-black/10 dark:hover:bg-white/10"
             >
@@ -103,6 +105,7 @@ export function DemoSwitcher() {
 
               return (
                 <button
+                  type="button"
                   key={user.email}
                   disabled={!!switching}
                   onClick={() => handleSwitch(user.email)}

@@ -97,6 +97,7 @@ export function HeaderNotifications() {
               </div>
               {unreadCount > 0 && (
                 <button
+                  type="button"
                   onClick={markAllRead}
                   className="text-xs font-semibold text-[var(--primary)] hover:underline cursor-pointer"
                 >

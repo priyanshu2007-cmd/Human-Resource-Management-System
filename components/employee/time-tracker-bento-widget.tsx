@@ -251,6 +251,7 @@ export function TimeTrackerBentoWidget({
           {/* Glowing Action Button State */}
           {!checkIn ? (
             <button
+              type="button"
               onClick={handleCheckIn}
               disabled={loading}
               className="relative group w-full py-4 px-6 rounded-2xl font-bold text-base text-white shadow-lg transition-all duration-300 transform active:scale-98 cursor-pointer disabled:opacity-70 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 hover:shadow-indigo-500/25 hover:shadow-xl"
@@ -272,6 +273,7 @@ export function TimeTrackerBentoWidget({
           ) : !checkOut ? (
             <div className="space-y-3">
               <button
+                type="button"
                 onClick={handleCheckOut}
                 disabled={loading}
                 className="relative group w-full py-4 px-6 rounded-2xl font-bold text-base text-white shadow-lg transition-all duration-300 transform active:scale-98 cursor-pointer disabled:opacity-70 bg-gradient-to-r from-rose-500 to-amber-600 hover:from-rose-600 hover:to-amber-700 hover:shadow-rose-500/25 hover:shadow-xl"

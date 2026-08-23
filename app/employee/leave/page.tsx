@@ -460,6 +460,7 @@ export default function EmployeeLeavePage() {
                 </p>
               </div>
               <button
+                type="button"
                 onClick={handleDiscard}
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer hover:bg-black/10 dark:hover:bg-white/10"
               >

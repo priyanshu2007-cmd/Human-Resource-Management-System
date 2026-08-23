@@ -144,6 +144,7 @@ export function DashboardFastActions({
           {/* Check In / Out */}
           {!status ? (
             <button
+              type="button"
               onClick={handleCheckIn}
               disabled={loading}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-body-sm font-semibold cursor-pointer disabled:opacity-60 transition-all hover:opacity-95 shadow-xs"
@@ -157,6 +158,7 @@ export function DashboardFastActions({
             </button>
           ) : checkedIn && !checkedOut ? (
             <button
+              type="button"
               onClick={handleCheckOut}
               disabled={loading}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-body-sm font-semibold cursor-pointer disabled:opacity-60 transition-all hover:opacity-95 shadow-xs"
@@ -188,6 +190,7 @@ export function DashboardFastActions({
 
           {/* Apply Leave */}
           <button
+            type="button"
             onClick={() => setShowLeaveForm(!showLeaveForm)}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-body-sm font-semibold cursor-pointer transition-all border shadow-xs"
             style={{

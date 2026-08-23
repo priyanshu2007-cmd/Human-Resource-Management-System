@@ -202,7 +202,7 @@ export default async function AdminDashboard() {
         <div className="flex items-center gap-3">
           <EmployeeContextSwitcher employees={employees || []} />
           
-          <button className="px-4 py-2 text-sm font-semibold text-neutral-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-neutral-200 dark:border-slate-800 rounded-lg shadow-sm hover:bg-neutral-50 dark:hover:bg-slate-800 transition-colors">
+          <button type="button" className="px-4 py-2 text-sm font-semibold text-neutral-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-neutral-200 dark:border-slate-800 rounded-lg shadow-sm hover:bg-neutral-50 dark:hover:bg-slate-800 transition-colors">
             Export Reports
           </button>
           <Link
@@ -301,10 +301,10 @@ export default async function AdminDashboard() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <button className="px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/20 rounded-md transition-colors border border-emerald-200 dark:border-emerald-500/20">
+                      <button type="button" className="px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/20 rounded-md transition-colors border border-emerald-200 dark:border-emerald-500/20">
                         Approve
                       </button>
-                      <button className="px-3 py-1.5 text-xs font-semibold text-neutral-700 bg-white hover:bg-neutral-50 dark:text-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 rounded-md transition-colors border border-neutral-200 dark:border-slate-700">
+                      <button type="button" className="px-3 py-1.5 text-xs font-semibold text-neutral-700 bg-white hover:bg-neutral-50 dark:text-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 rounded-md transition-colors border border-neutral-200 dark:border-slate-700">
                         Reject
                       </button>
                     </div>
