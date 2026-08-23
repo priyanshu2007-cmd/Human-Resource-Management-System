@@ -1,6 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Vercel Deployment Skew Protection: synchronizes client chunk requests with deployment version
+  deploymentId: process.env.VERCEL_DEPLOYMENT_ID || undefined,
+
+  // Aggressive package import tree-shaking & build optimization
+  experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "recharts",
+      "@supabase/supabase-js",
+      "clsx",
+      "tailwind-merge",
+      "sonner",
+    ],
+  },
+
   env: {
     NEXT_PUBLIC_SUPABASE_URL:
       process.env.NEXT_PUBLIC_SUPABASE_URL || "https://sjbyazwtokihprndebxh.supabase.co",
