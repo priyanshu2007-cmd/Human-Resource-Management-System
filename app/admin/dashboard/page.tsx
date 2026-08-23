@@ -164,7 +164,7 @@ export default async function AdminDashboard() {
     },
     {
       label: "Monthly Payroll",
-      value: `$${totalMonthlyPayroll.toLocaleString()}`,
+      value: `₹${totalMonthlyPayroll.toLocaleString()}`,
       subtext: "Includes allowances & benefits",
       icon: "payments",
       color: "#8b5cf6",

@@ -61,10 +61,13 @@ export default function EmployeePayrollPage() {
   }, [fetchData]);
 
   function formatAmount(value: number): string {
-    return new Intl.NumberFormat("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(value);
+    return (
+      "₹" +
+      new Intl.NumberFormat("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(value)
+    );
   }
 
   function formatDate(dateStr: string): string {

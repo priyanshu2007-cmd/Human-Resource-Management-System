@@ -30,7 +30,7 @@ const DEFAULT_DATA: PayrollPoint[] = [
 ];
 
 function formatCurrency(val: number): string {
-  return `$${(val / 1000).toFixed(1)}k`;
+  return `₹${(val / 1000).toFixed(1)}k`;
 }
 
 interface TooltipProps {
@@ -53,9 +53,9 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
       >
         <p className="font-semibold text-body-sm mb-1">{label}</p>
         <p className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[var(--primary,#630ed4)]" />
+          <span className="w-2 h-2 rounded-full bg-[var(--primary,#6366f1)]" />
           <span className="font-medium">Total Spend:</span>
-          <span className="font-mono font-bold">${data.amount.toLocaleString()}</span>
+          <span className="font-mono font-bold">₹{data.amount.toLocaleString()}</span>
         </p>
         <p className="text-[var(--on-surface-variant,#64748b)] mt-0.5">
           {data.employees} Active Employees
