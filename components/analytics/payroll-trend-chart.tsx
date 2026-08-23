@@ -43,21 +43,14 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div
-        className="rounded-xl p-3 shadow-lg border text-xs"
-        style={{
-          background: "var(--surface-container-lowest, #ffffff)",
-          borderColor: "var(--outline-variant, #e2e8f0)",
-          color: "var(--on-surface, #0f172a)",
-        }}
-      >
-        <p className="font-semibold text-body-sm mb-1">{label}</p>
+      <div className="rounded-xl p-3 shadow-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 text-xs">
+        <p className="font-semibold text-sm mb-1">{label}</p>
         <p className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#6366f1]" />
-          <span className="font-medium">Total Spend:</span>
+          <span className="w-2 h-2 rounded-full bg-indigo-500" />
+          <span className="font-medium text-slate-700 dark:text-slate-300">Total Spend:</span>
           <span className="font-mono font-bold">₹{data.amount.toLocaleString()}</span>
         </p>
-        <p className="text-[var(--on-surface-variant,#64748b)] mt-0.5">
+        <p className="text-slate-500 dark:text-slate-400 mt-1 font-medium">
           {data.employees} Active Employees
         </p>
       </div>
@@ -68,27 +61,21 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
 
 export default function PayrollTrendChart({ data = DEFAULT_DATA }: Props) {
   return (
-    <div
-      className="border rounded-2xl p-5 shadow-sm dark:shadow-none transition-all"
-      style={{
-        background: "var(--surface-container-lowest)",
-        borderColor: "var(--outline-variant)",
-      }}
-    >
+    <div className="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-none transition-all h-full bg-white dark:bg-slate-900 flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-title-md font-bold tracking-tight">Payroll Expense Trend</h3>
-          <p className="text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
+          <h3 className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-50">Payroll Expense Trend</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             Monthly salary distribution and growth over last 6 months
           </p>
         </div>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">
           <span className="material-symbols-outlined text-sm">trending_up</span>
           +8.8% Growth
         </div>
       </div>
 
-      <div className="h-[260px] w-full">
+      <div className="flex-1 w-full min-h-[260px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
             <defs>
@@ -100,20 +87,20 @@ export default function PayrollTrendChart({ data = DEFAULT_DATA }: Props) {
             <CartesianGrid
               strokeDasharray="3 3"
               vertical={false}
-              stroke="var(--outline-variant, #e2e8f0)"
-              opacity={0.6}
+              stroke="#e2e8f0"
+              strokeOpacity={0.5}
             />
             <XAxis
               dataKey="month"
               tickLine={false}
               axisLine={false}
-              tick={{ fill: "var(--on-surface-variant, #64748b)", fontSize: 12 }}
+              tick={{ fill: "#64748b", fontSize: 12 }}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
               tickFormatter={formatCurrency}
-              tick={{ fill: "var(--on-surface-variant, #64748b)", fontSize: 12 }}
+              tick={{ fill: "#64748b", fontSize: 12 }}
             />
             <Tooltip content={<CustomTooltip />} />
             <Area
@@ -130,3 +117,4 @@ export default function PayrollTrendChart({ data = DEFAULT_DATA }: Props) {
     </div>
   );
 }
+
