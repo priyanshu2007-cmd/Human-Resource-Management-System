@@ -64,12 +64,29 @@ export default function SignUpPage() {
     try {
       const supabase = createClient();
 
-      // 1. Create auth user
+      // 1. Generate employee ID and metadata for the admin
+      const nameParts = fullName.trim().split(/\s+/);
+      const firstName = nameParts[0] || "XX";
+      const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : "XX";
+      const prefix =
+        (firstName.slice(0, 2) + lastName.slice(0, 2)).toUpperCase().padEnd(4, "X");
+      const year = new Date().getFullYear();
+      const employeeId = `${prefix}${year}0001`;
+
+      // 2. Create auth user with metadata for PostgreSQL trigger
       const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/callback`,
+          data: {
+            employee_id: employeeId,
+            first_name: firstName,
+            last_name: lastName,
+            full_name: fullName.trim(),
+            role: "admin",
+            company_name: companyName.trim(),
+          },
         },
       });
 
@@ -78,15 +95,6 @@ export default function SignUpPage() {
         setLoading(false);
         return;
       }
-
-      // 2. Generate employee ID for the admin
-      const nameParts = fullName.trim().split(/\s+/);
-      const firstName = nameParts[0] || "XX";
-      const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : "XX";
-      const prefix =
-        (firstName.slice(0, 2) + lastName.slice(0, 2)).toUpperCase().padEnd(4, "X");
-      const year = new Date().getFullYear();
-      const employeeId = `${prefix}${year}0001`;
 
       // 3. Create org + admin profile via RPC
       const { error: rpcError } = await supabase.rpc(
