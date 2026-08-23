@@ -63,22 +63,22 @@ export function DashboardHeroHeader({
         {/* Left: Dynamic Greeting */}
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-headline-lg font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
+            <h1 className="text-headline-lg font-extrabold tracking-tight text-neutral-900 dark:text-slate-50">
               {greeting}, {firstName}! 👋
             </h1>
           </div>
-          <div className="flex flex-wrap items-center gap-2 text-body-sm text-neutral-500 dark:text-neutral-400">
+          <div className="flex flex-wrap items-center gap-2 text-body-sm text-neutral-500 dark:text-slate-400">
             <span>{jobTitle || "Team Member"}</span>
             {department && (
               <>
                 <span className="opacity-40">•</span>
-                <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                <span className="font-medium text-neutral-700 dark:text-slate-300">
                   {department}
                 </span>
               </>
             )}
             <span className="opacity-40">•</span>
-            <span className="inline-flex items-center gap-1 font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-neutral-200/60 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+            <span className="inline-flex items-center gap-1 font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-neutral-200/60 dark:bg-slate-800 text-neutral-700 dark:text-slate-300">
               <span className="material-symbols-outlined text-xs">calendar_today</span>
               {currentDateStr || "Today"}
             </span>
@@ -90,7 +90,7 @@ export function DashboardHeroHeader({
           <button
             type="button"
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-body-sm font-semibold bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white dark:text-neutral-950 shadow-sm transition-all hover:shadow-md cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-body-sm font-semibold bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white dark:text-slate-950 shadow-sm transition-all hover:shadow-md cursor-pointer"
           >
             <span className="material-symbols-outlined text-lg">bolt</span>
             <span>Quick Actions</span>
@@ -106,7 +106,7 @@ export function DashboardHeroHeader({
                 className="fixed inset-0 z-30"
                 onClick={() => setDropdownOpen(false)}
               />
-              <div className="absolute right-0 top-full mt-2 z-40 w-56 p-1.5 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+              <div className="absolute right-0 top-full mt-2 z-40 w-56 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-neutral-200 dark:border-slate-800 shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-100">
                 <button
                   type="button"
                   onClick={() => {
@@ -114,7 +114,7 @@ export function DashboardHeroHeader({
                     if (onOpenLeaveModal) onOpenLeaveModal();
                     else router.push("/employee/leave");
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-body-sm font-medium rounded-xl text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-left cursor-pointer"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-body-sm font-medium rounded-xl text-neutral-800 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-slate-800 transition-colors text-left cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-lg text-emerald-500">
                     event_busy
@@ -125,7 +125,7 @@ export function DashboardHeroHeader({
                 <Link
                   href="/employee/payroll"
                   onClick={() => setDropdownOpen(false)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-body-sm font-medium rounded-xl text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-body-sm font-medium rounded-xl text-neutral-800 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   <span className="material-symbols-outlined text-lg text-indigo-500">
                     receipt_long
@@ -136,7 +136,7 @@ export function DashboardHeroHeader({
                 <Link
                   href="/employee/attendance"
                   onClick={() => setDropdownOpen(false)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-body-sm font-medium rounded-xl text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-body-sm font-medium rounded-xl text-neutral-800 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   <span className="material-symbols-outlined text-lg text-amber-500">
                     history
@@ -144,12 +144,12 @@ export function DashboardHeroHeader({
                   Attendance Timesheet
                 </Link>
 
-                <div className="my-1 border-t border-neutral-100 dark:border-neutral-800" />
+                <div className="my-1 border-t border-neutral-100 dark:border-slate-800" />
 
                 <Link
                   href="/employee/profile"
                   onClick={() => setDropdownOpen(false)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-body-sm font-medium rounded-xl text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-body-sm font-medium rounded-xl text-neutral-800 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   <span className="material-symbols-outlined text-lg text-neutral-400">
                     badge
@@ -163,15 +163,15 @@ export function DashboardHeroHeader({
       </div>
 
       {/* Motivational Ticker / Announcement Ribbon */}
-      <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 text-xs text-neutral-600 dark:text-neutral-400 shadow-2xs">
+      <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-neutral-200/80 dark:border-slate-800/80 text-xs text-neutral-600 dark:text-slate-400 shadow-2xs">
         <span className="flex h-2 w-2 relative shrink-0">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
         </span>
-        <span className="font-semibold text-neutral-900 dark:text-neutral-200 uppercase tracking-wider text-[10px] font-mono">
+        <span className="font-semibold text-neutral-900 dark:text-slate-200 uppercase tracking-wider text-[10px] font-mono">
           Notice
         </span>
-        <span className="text-neutral-300 dark:text-neutral-700">|</span>
+        <span className="text-neutral-300 dark:text-slate-700">|</span>
         <span className="truncate transition-all duration-300">
           {ticker.icon} {ticker.text}
         </span>

@@ -43,14 +43,14 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="rounded-xl p-3 shadow-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 text-xs">
+      <div className="rounded-xl p-3 shadow-lg border border-neutral-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-neutral-900 dark:text-slate-50 text-xs">
         <p className="font-semibold text-sm mb-1">{label}</p>
         <p className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-indigo-500" />
-          <span className="font-medium text-neutral-700 dark:text-neutral-300">Total Spend:</span>
+          <span className="font-medium text-neutral-700 dark:text-slate-300">Total Spend:</span>
           <span className="font-mono font-bold">₹{data.amount.toLocaleString()}</span>
         </p>
-        <p className="text-neutral-500 dark:text-neutral-400 mt-1 font-medium">
+        <p className="text-neutral-500 dark:text-slate-400 mt-1 font-medium">
           {data.employees} Active Employees
         </p>
       </div>
@@ -61,11 +61,11 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
 
 export default function PayrollTrendChart({ data = DEFAULT_DATA }: Props) {
   return (
-    <div className="border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 shadow-sm dark:shadow-none transition-all h-full bg-white dark:bg-neutral-900 flex flex-col">
+    <div className="border border-neutral-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-none transition-all h-full bg-white dark:bg-slate-900 flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold tracking-tight text-neutral-900 dark:text-neutral-50">Payroll Expense Trend</h3>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          <h3 className="text-lg font-bold tracking-tight text-neutral-900 dark:text-slate-50">Payroll Expense Trend</h3>
+          <p className="text-sm text-neutral-500 dark:text-slate-400">
             Monthly salary distribution and growth over last 6 months
           </p>
         </div>

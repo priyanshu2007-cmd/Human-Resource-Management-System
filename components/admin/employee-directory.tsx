@@ -275,7 +275,7 @@ export function EmployeeDirectory({ employees, initialView = "table" }: Props) {
             return (
               <div
                 key={emp.id}
-                className={`border rounded-2xl p-5 relative transition-all shadow-sm dark:shadow-none hover:shadow-md dark:hover:border-neutral-700 ${
+                className={`border rounded-2xl p-5 relative transition-all shadow-sm dark:shadow-none hover:shadow-md dark:hover:border-slate-700 ${
                   isSelected ? "ring-2 ring-[var(--primary)]" : ""
                 }`}
                 style={{

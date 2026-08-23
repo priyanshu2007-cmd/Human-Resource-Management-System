@@ -68,26 +68,26 @@ export function RecentActivityTimelineBento({ activities = DEFAULT_ACTIVITIES }:
   const filtered = filter === "all" ? items : items.filter((i) => i.category === filter);
 
   return (
-    <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 shadow-sm dark:shadow-none flex flex-col justify-between transition-all h-full">
+    <div className="bg-white dark:bg-slate-900 border border-neutral-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm dark:shadow-none flex flex-col justify-between transition-all h-full">
       <div>
         {/* Card Header & Filter Chips */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-neutral-100 dark:border-neutral-800 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-neutral-100 dark:border-slate-800 mb-4">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
               <span className="material-symbols-outlined text-lg">notifications_active</span>
             </div>
             <div>
-              <h3 className="text-title-md font-bold text-neutral-900 dark:text-neutral-50 tracking-tight">
+              <h3 className="text-title-md font-bold text-neutral-900 dark:text-slate-50 tracking-tight">
                 Activity & Updates
               </h3>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              <p className="text-xs text-neutral-500 dark:text-slate-400">
                 Timeline of recent organizational events
               </p>
             </div>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex items-center gap-1 p-1 bg-neutral-100 dark:bg-neutral-800/80 rounded-xl border border-neutral-200/60 dark:border-neutral-700/60 text-xs">
+          <div className="flex items-center gap-1 p-1 bg-neutral-100 dark:bg-slate-800/80 rounded-xl border border-neutral-200/60 dark:border-slate-700/60 text-xs">
             {["all", "leave", "payroll"].map((f) => (
               <button
                 key={f}
@@ -95,8 +95,8 @@ export function RecentActivityTimelineBento({ activities = DEFAULT_ACTIVITIES }:
                 onClick={() => setFilter(f)}
                 className={`px-2.5 py-1 rounded-lg font-semibold capitalize transition-colors cursor-pointer ${
                   filter === f
-                    ? "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 shadow-2xs"
-                    : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200"
+                    ? "bg-white dark:bg-slate-900 text-neutral-900 dark:text-slate-100 shadow-2xs"
+                    : "text-neutral-500 dark:text-slate-400 hover:text-neutral-800 dark:hover:text-slate-200"
                 }`}
               >
                 {f}
@@ -111,11 +111,11 @@ export function RecentActivityTimelineBento({ activities = DEFAULT_ACTIVITIES }:
             <div key={item.id} className="relative group">
               {/* Timeline Bullet */}
               <div
-                className="absolute -left-5 top-1 w-3.5 h-3.5 rounded-full border-2 border-white dark:border-neutral-900 flex items-center justify-center"
+                className="absolute -left-5 top-1 w-3.5 h-3.5 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center"
                 style={{ background: item.color }}
               />
 
-              <div className="p-3.5 rounded-2xl bg-neutral-50/50 dark:bg-neutral-800/40 border border-neutral-100 dark:border-neutral-800/80 hover:bg-neutral-100/70 dark:hover:bg-neutral-800/80 transition-colors">
+              <div className="p-3.5 rounded-2xl bg-neutral-50/50 dark:bg-slate-800/40 border border-neutral-100 dark:border-slate-800/80 hover:bg-neutral-100/70 dark:hover:bg-slate-800/80 transition-colors">
                 <div className="flex items-center justify-between gap-2 mb-1">
                   <div className="flex items-center gap-2 min-w-0">
                     <span
@@ -124,7 +124,7 @@ export function RecentActivityTimelineBento({ activities = DEFAULT_ACTIVITIES }:
                     >
                       {item.icon}
                     </span>
-                    <h4 className="text-body-sm font-bold text-neutral-900 dark:text-neutral-100 truncate">
+                    <h4 className="text-body-sm font-bold text-neutral-900 dark:text-slate-100 truncate">
                       {item.title}
                     </h4>
                   </div>
@@ -133,7 +133,7 @@ export function RecentActivityTimelineBento({ activities = DEFAULT_ACTIVITIES }:
                   </span>
                 </div>
 
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 pl-6 leading-relaxed">
+                <p className="text-xs text-neutral-500 dark:text-slate-400 pl-6 leading-relaxed">
                   {item.description}
                 </p>
 
@@ -154,7 +154,7 @@ export function RecentActivityTimelineBento({ activities = DEFAULT_ACTIVITIES }:
       </div>
 
       {/* Footer link */}
-      <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between text-xs text-neutral-400">
+      <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-slate-800 flex items-center justify-between text-xs text-neutral-400">
         <span>Real-time system events</span>
         <span className="text-emerald-500 font-semibold flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Live Sync
