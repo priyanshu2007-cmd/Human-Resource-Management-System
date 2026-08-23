@@ -58,7 +58,7 @@ export function DashboardFastActions({
     } else {
       setStatus("present");
       setCheckedIn(now);
-      toast.success("Checked in successfully!");
+      toast.success("Checked in successfully at " + new Date(now).toLocaleTimeString());
       router.refresh();
     }
   }
@@ -79,7 +79,7 @@ export function DashboardFastActions({
       toast.error("Failed to check out: " + error.message);
     } else {
       setCheckedOut(now);
-      toast.success("Checked out successfully!");
+      toast.success("Checked out successfully at " + new Date(now).toLocaleTimeString());
       router.refresh();
     }
   }
@@ -90,8 +90,8 @@ export function DashboardFastActions({
       toast.error("Please select both start and end dates.");
       return;
     }
-    if (new Date(startDate) > new Date(endDate)) {
-      toast.error("Start date must be before end date.");
+    if (endDate < startDate) {
+      toast.error("End date must be on or after start date.");
       return;
     }
 
@@ -104,15 +104,15 @@ export function DashboardFastActions({
       leave_type: leaveType,
       start_date: startDate,
       end_date: endDate,
-      remarks: remarks || null,
+      remarks: remarks.trim() || null,
       status: "pending",
     });
 
     setSubmittingLeave(false);
     if (error) {
-      toast.error("Failed to submit: " + error.message);
+      toast.error("Failed to submit leave: " + error.message);
     } else {
-      toast.success("Leave request submitted!");
+      toast.success("Leave request submitted for approval!");
       setShowLeaveForm(false);
       setStartDate("");
       setEndDate("");
@@ -125,6 +125,7 @@ export function DashboardFastActions({
     return new Date(iso).toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
+      hour12: true,
     });
   }
 
@@ -132,20 +133,20 @@ export function DashboardFastActions({
     <>
       {/* Fast Action Buttons */}
       <div
-        className="border rounded-lg p-5 mb-4"
+        className="border rounded-2xl p-5 mb-6 shadow-sm dark:shadow-none transition-all"
         style={{
           background: "var(--surface-container-lowest)",
           borderColor: "var(--outline-variant)",
         }}
       >
-        <h3 className="text-body-md font-semibold mb-3">Quick Actions</h3>
+        <h3 className="text-body-md font-bold tracking-tight mb-3">Quick Actions</h3>
         <div className="flex flex-wrap gap-3">
           {/* Check In / Out */}
           {!status ? (
             <button
               onClick={handleCheckIn}
               disabled={loading}
-              className="flex items-center gap-2 px-4 py-2.5 rounded text-body-sm font-semibold cursor-pointer disabled:opacity-60 transition-colors"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-body-sm font-semibold cursor-pointer disabled:opacity-60 transition-all hover:opacity-95 shadow-xs"
               style={{
                 background: "var(--status-approved)",
                 color: "#fff",
@@ -158,7 +159,7 @@ export function DashboardFastActions({
             <button
               onClick={handleCheckOut}
               disabled={loading}
-              className="flex items-center gap-2 px-4 py-2.5 rounded text-body-sm font-semibold cursor-pointer disabled:opacity-60 transition-colors"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-body-sm font-semibold cursor-pointer disabled:opacity-60 transition-all hover:opacity-95 shadow-xs"
               style={{
                 background: "var(--status-rejected)",
                 color: "#fff",
@@ -169,13 +170,13 @@ export function DashboardFastActions({
             </button>
           ) : (
             <div
-              className="flex items-center gap-2 px-4 py-2.5 rounded text-body-sm font-semibold"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-body-sm font-semibold"
               style={{
                 background: "var(--surface-container-low)",
                 color: "var(--on-surface-variant)",
               }}
             >
-              <span className="material-symbols-outlined text-lg">check_circle</span>
+              <span className="material-symbols-outlined text-lg text-emerald-500">check_circle</span>
               Done for today
               {checkedIn && (
                 <span className="font-mono text-xs ml-1">
@@ -188,7 +189,7 @@ export function DashboardFastActions({
           {/* Apply Leave */}
           <button
             onClick={() => setShowLeaveForm(!showLeaveForm)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded text-body-sm font-semibold cursor-pointer transition-colors border"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-body-sm font-semibold cursor-pointer transition-all border shadow-xs"
             style={{
               borderColor: "var(--primary)",
               color: "var(--primary)",
@@ -204,7 +205,7 @@ export function DashboardFastActions({
         {status && (
           <div className="mt-3 flex items-center gap-2 text-body-sm">
             <div
-              className="w-2 h-2 rounded-full"
+              className="w-2.5 h-2.5 rounded-full"
               style={{
                 background:
                   status === "present"
@@ -215,7 +216,7 @@ export function DashboardFastActions({
               }}
             />
             <span style={{ color: "var(--on-surface-variant)" }}>
-              Today: <span className="capitalize font-medium">{status}</span>
+              Today: <span className="capitalize font-semibold text-[var(--on-surface)]">{status}</span>
               {checkedIn && (
                 <span className="font-mono text-xs ml-2">
                   In {formatTime(checkedIn)}
@@ -231,18 +232,18 @@ export function DashboardFastActions({
       {showLeaveForm && (
         <form
           onSubmit={handleApplyLeave}
-          className="border rounded-lg p-5 mb-4 space-y-4"
+          className="border rounded-2xl p-5 mb-6 space-y-4 shadow-sm dark:shadow-none transition-all"
           style={{
             background: "var(--surface-container-lowest)",
             borderColor: "var(--outline-variant)",
           }}
         >
           <div className="flex items-center justify-between">
-            <h3 className="text-body-md font-semibold">Quick Leave Request</h3>
+            <h3 className="text-body-md font-bold">Quick Leave Request</h3>
             <button
               type="button"
               onClick={() => setShowLeaveForm(false)}
-              className="w-7 h-7 rounded-full flex items-center justify-center cursor-pointer hover:bg-[var(--surface-container-high)] transition-colors"
+              className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:bg-[var(--surface-container-high)] transition-colors"
             >
               <span className="material-symbols-outlined text-base">close</span>
             </button>
@@ -251,7 +252,7 @@ export function DashboardFastActions({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label
-                className="block text-xs font-mono uppercase mb-1"
+                className="block text-xs font-mono uppercase mb-1 font-semibold"
                 style={{ color: "var(--on-surface-variant)" }}
               >
                 Leave Type
@@ -259,10 +260,11 @@ export function DashboardFastActions({
               <select
                 value={leaveType}
                 onChange={(e) => setLeaveType(e.target.value as "paid" | "sick" | "unpaid")}
-                className="w-full border rounded-lg px-3 py-2 text-body-sm"
+                className="w-full px-3 py-2 rounded-xl text-body-sm border focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                 style={{
-                  background: "var(--surface-container-lowest)",
+                  background: "var(--surface-container-low)",
                   borderColor: "var(--outline-variant)",
+                  color: "var(--on-surface)",
                 }}
               >
                 <option value="paid">Paid Leave</option>
@@ -270,39 +272,45 @@ export function DashboardFastActions({
                 <option value="unpaid">Unpaid Leave</option>
               </select>
             </div>
+
             <div>
               <label
-                className="block text-xs font-mono uppercase mb-1"
+                className="block text-xs font-mono uppercase mb-1 font-semibold"
                 style={{ color: "var(--on-surface-variant)" }}
               >
-                From
+                Start Date
               </label>
               <input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2 text-body-sm"
+                min={today}
+                className="w-full px-3 py-2 rounded-xl text-body-sm border focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                 style={{
-                  background: "var(--surface-container-lowest)",
+                  background: "var(--surface-container-low)",
                   borderColor: "var(--outline-variant)",
+                  color: "var(--on-surface)",
                 }}
               />
             </div>
+
             <div>
               <label
-                className="block text-xs font-mono uppercase mb-1"
+                className="block text-xs font-mono uppercase mb-1 font-semibold"
                 style={{ color: "var(--on-surface-variant)" }}
               >
-                To
+                End Date
               </label>
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2 text-body-sm"
+                min={startDate || today}
+                className="w-full px-3 py-2 rounded-xl text-body-sm border focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                 style={{
-                  background: "var(--surface-container-lowest)",
+                  background: "var(--surface-container-low)",
                   borderColor: "var(--outline-variant)",
+                  color: "var(--on-surface)",
                 }}
               />
             </div>
@@ -310,36 +318,46 @@ export function DashboardFastActions({
 
           <div>
             <label
-              className="block text-xs font-mono uppercase mb-1"
+              className="block text-xs font-mono uppercase mb-1 font-semibold"
               style={{ color: "var(--on-surface-variant)" }}
             >
-              Reason (Optional)
+              Reason / Remarks (Optional)
             </label>
             <input
               type="text"
               value={remarks}
               onChange={(e) => setRemarks(e.target.value)}
-              placeholder="Brief reason for leave"
-              className="w-full border rounded-lg px-3 py-2 text-body-sm"
+              placeholder="e.g., Annual family vacation"
+              className="w-full px-3 py-2 rounded-xl text-body-sm border focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
               style={{
-                background: "var(--surface-container-lowest)",
+                background: "var(--surface-container-low)",
                 borderColor: "var(--outline-variant)",
+                color: "var(--on-surface)",
               }}
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={submittingLeave}
-            className="flex items-center gap-2 px-4 py-2 rounded text-body-sm font-semibold cursor-pointer disabled:opacity-60 transition-colors"
-            style={{
-              background: "var(--primary)",
-              color: "var(--on-primary)",
-            }}
-          >
-            <span className="material-symbols-outlined text-base">send</span>
-            {submittingLeave ? "Submitting…" : "Submit Request"}
-          </button>
+          <div className="flex justify-end gap-2 pt-2">
+            <button
+              type="button"
+              onClick={() => setShowLeaveForm(false)}
+              className="px-4 py-2 rounded-xl text-body-sm font-semibold cursor-pointer hover:bg-[var(--surface-container-high)] transition-colors"
+              style={{ color: "var(--on-surface-variant)" }}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submittingLeave}
+              className="px-4 py-2 rounded-xl text-body-sm font-semibold cursor-pointer disabled:opacity-60 transition-all hover:opacity-95 shadow-xs"
+              style={{
+                background: "var(--primary)",
+                color: "var(--on-primary)",
+              }}
+            >
+              {submittingLeave ? "Submitting…" : "Submit Request"}
+            </button>
+          </div>
         </form>
       )}
     </>

@@ -9,8 +9,6 @@ export default async function EmployeeDashboard() {
   } = await supabase.auth.getUser();
 
   const userId = user?.id ?? "";
-
-  // Parallelize independent queries
   const today = new Date().toISOString().split("T")[0];
 
   const [profileResult, todayAttendanceResult, recentLeavesResult] = await Promise.all([
@@ -43,6 +41,7 @@ export default async function EmployeeDashboard() {
       icon: "person",
       href: "/employee/profile",
       description: "View and edit your details",
+      color: "var(--primary)",
     },
     {
       label: "Attendance",
@@ -51,36 +50,39 @@ export default async function EmployeeDashboard() {
       description: todayAttendance
         ? `Today: ${todayAttendance.status}`
         : "Not checked in today",
+      color: "var(--status-approved)",
     },
     {
       label: "Time Off",
       icon: "event_busy",
       href: "/employee/leave",
       description: `${recentLeaves?.filter((l) => l.status === "pending").length || 0} pending requests`,
+      color: "var(--status-pending)",
     },
     {
       label: "Payroll",
       icon: "payments",
       href: "/employee/payroll",
-      description: "View salary breakdown",
+      description: "View salary & payslips",
+      color: "var(--secondary)",
     },
   ];
 
-  const statusColors: Record<string, string> = {
-    present: "var(--status-approved)",
-    absent: "var(--status-rejected)",
-    "half-day": "var(--status-pending)",
-    leave: "var(--outline)",
-    pending: "var(--status-pending)",
-    approved: "var(--status-approved)",
-    rejected: "var(--status-rejected)",
+  const statusColors: Record<string, { bg: string; text: string }> = {
+    present: { bg: "rgba(16, 185, 129, 0.12)", text: "#10b981" },
+    approved: { bg: "rgba(16, 185, 129, 0.12)", text: "#10b981" },
+    absent: { bg: "rgba(244, 63, 94, 0.12)", text: "#f43f5e" },
+    rejected: { bg: "rgba(244, 63, 94, 0.12)", text: "#f43f5e" },
+    "half-day": { bg: "rgba(245, 158, 11, 0.12)", text: "#f59e0b" },
+    pending: { bg: "rgba(245, 158, 11, 0.12)", text: "#f59e0b" },
+    leave: { bg: "rgba(99, 102, 241, 0.12)", text: "#6366f1" },
   };
 
   return (
-    <div>
+    <div className="space-y-6">
       {/* Welcome */}
-      <div className="mb-6">
-        <h1 className="text-headline-lg font-semibold">
+      <div>
+        <h1 className="text-headline-lg font-bold tracking-tight">
           Welcome back, {profile?.full_name?.split(" ")[0] || "there"}
         </h1>
         <p className="text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
@@ -99,27 +101,30 @@ export default async function EmployeeDashboard() {
       />
 
       {/* Quick access cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {quickCards.map((card) => (
           <Link
             key={card.href}
             href={card.href}
-            className="border rounded-lg p-5 transition-colors group border-[var(--outline-variant)] hover:border-[var(--primary)]"
+            className="border rounded-2xl p-5 shadow-sm dark:shadow-none transition-all group hover:border-[var(--primary)] hover:-translate-y-0.5 cursor-pointer"
             style={{
               background: "var(--surface-container-lowest)",
+              borderColor: "var(--outline-variant)",
             }}
           >
-            <span
-              className="material-symbols-outlined text-2xl mb-3 block"
-              style={{ color: "var(--primary)" }}
+            <div
+              className="w-11 h-11 rounded-xl flex items-center justify-center mb-3 transition-transform group-hover:scale-105"
+              style={{
+                background: `${card.color}18`,
+                color: card.color,
+              }}
             >
-              {card.icon}
-            </span>
-            <p className="text-body-md font-semibold mb-0.5">{card.label}</p>
-            <p
-              className="text-body-sm"
-              style={{ color: "var(--on-surface-variant)" }}
-            >
+              <span className="material-symbols-outlined text-2xl">{card.icon}</span>
+            </div>
+            <p className="text-body-md font-bold mb-0.5 tracking-tight group-hover:text-[var(--primary)] transition-colors">
+              {card.label}
+            </p>
+            <p className="text-body-sm" style={{ color: "var(--on-surface-variant)" }}>
               {card.description}
             </p>
           </Link>
@@ -128,49 +133,56 @@ export default async function EmployeeDashboard() {
 
       {/* Recent activity */}
       <div
-        className="border rounded-lg"
+        className="border rounded-2xl shadow-sm dark:shadow-none transition-all"
         style={{
           background: "var(--surface-container-lowest)",
           borderColor: "var(--outline-variant)",
         }}
       >
-        <div className="px-5 py-4 border-b" style={{ borderColor: "var(--outline-variant)" }}>
-          <h2 className="text-title-md font-semibold">Recent Leave Requests</h2>
+        <div className="px-5 py-4 border-b flex items-center justify-between" style={{ borderColor: "var(--outline-variant)" }}>
+          <h2 className="text-title-md font-bold tracking-tight">Recent Leave Requests</h2>
+          <Link
+            href="/employee/leave"
+            className="text-xs font-semibold text-[var(--primary)] hover:underline flex items-center gap-1"
+          >
+            View all <span className="material-symbols-outlined text-sm">arrow_forward</span>
+          </Link>
         </div>
         {recentLeaves && recentLeaves.length > 0 ? (
           <div className="divide-y" style={{ borderColor: "var(--outline-variant)" }}>
-            {recentLeaves.map((leave) => (
-              <div
-                key={leave.id}
-                className="flex items-center justify-between px-5 py-3"
-              >
-                <div>
-                  <p className="text-body-sm font-semibold capitalize">
-                    {leave.leave_type} Leave
-                  </p>
-                  <p
-                    className="text-body-sm"
-                    style={{ color: "var(--on-surface-variant)" }}
-                  >
-                    {leave.start_date} → {leave.end_date}
-                  </p>
-                </div>
-                <span
-                  className="font-mono text-label-caps uppercase px-2 py-0.5 rounded-sm"
-                  style={{
-                    color: statusColors[leave.status] || "var(--outline)",
-                    background:
-                      leave.status === "approved"
-                        ? "rgba(34,197,94,0.1)"
-                        : leave.status === "rejected"
-                          ? "rgba(239,68,68,0.1)"
-                          : "rgba(234,179,8,0.1)",
-                  }}
+            {recentLeaves.map((leave) => {
+              const badge = statusColors[leave.status] || {
+                bg: "var(--surface-container-high)",
+                text: "var(--on-surface-variant)",
+              };
+              return (
+                <div
+                  key={leave.id}
+                  className="flex items-center justify-between px-5 py-3.5 hover:bg-[var(--surface-container-low)] transition-colors"
                 >
-                  {leave.status}
-                </span>
-              </div>
-            ))}
+                  <div>
+                    <p className="text-body-sm font-bold capitalize">
+                      {leave.leave_type} Leave
+                    </p>
+                    <p
+                      className="text-body-sm text-xs font-mono"
+                      style={{ color: "var(--on-surface-variant)" }}
+                    >
+                      {leave.start_date} → {leave.end_date}
+                    </p>
+                  </div>
+                  <span
+                    className="font-mono text-label-caps uppercase px-2.5 py-1 rounded-full text-xs font-bold"
+                    style={{
+                      color: badge.text,
+                      background: badge.bg,
+                    }}
+                  >
+                    {leave.status}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="p-8 text-center">
@@ -181,10 +193,10 @@ export default async function EmployeeDashboard() {
               event_available
             </span>
             <p
-              className="text-body-sm"
+              className="text-body-sm font-medium"
               style={{ color: "var(--on-surface-variant)" }}
             >
-              No leave requests yet.
+              No leave requests submitted yet.
             </p>
           </div>
         )}

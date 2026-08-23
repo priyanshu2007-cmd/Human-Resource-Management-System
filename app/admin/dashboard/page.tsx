@@ -213,7 +213,7 @@ export default async function AdminDashboard() {
         {kpis.map((kpi) => (
           <div
             key={kpi.label}
-            className="border rounded-2xl p-5 relative overflow-hidden transition-all hover:shadow-md"
+            className="border rounded-2xl p-5 relative overflow-hidden transition-all shadow-sm dark:shadow-none hover:shadow-md dark:hover:border-slate-700"
             style={{
               background: "var(--surface-container-lowest)",
               borderColor: "var(--outline-variant)",
@@ -256,7 +256,7 @@ export default async function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Pending Leave Approvals Queue */}
         <div
-          className="border rounded-2xl overflow-hidden"
+          className="border rounded-2xl overflow-hidden shadow-sm dark:shadow-none transition-all"
           style={{
             background: "var(--surface-container-lowest)",
             borderColor: "var(--outline-variant)",
@@ -322,7 +322,7 @@ export default async function AdminDashboard() {
 
         {/* Today's Attendance Anomalies */}
         <div
-          className="border rounded-2xl overflow-hidden"
+          className="border rounded-2xl overflow-hidden shadow-sm dark:shadow-none transition-all"
           style={{
             background: "var(--surface-container-lowest)",
             borderColor: "var(--outline-variant)",
@@ -411,7 +411,7 @@ export default async function AdminDashboard() {
 
       {/* Recent Employees Table */}
       <div
-        className="border rounded-2xl overflow-hidden"
+        className="border rounded-2xl overflow-hidden shadow-sm dark:shadow-none transition-all"
         style={{
           background: "var(--surface-container-lowest)",
           borderColor: "var(--outline-variant)",
