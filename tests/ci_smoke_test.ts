@@ -16,12 +16,13 @@ Deno.test("package.json defines build script", () => {
   assert.ok(typeof pkg.scripts?.build === "string");
 });
 
-Deno.test("supabase migrations exist with version-prefixed names", () => {
+Deno.test("supabase migrations exist with version-prefixed names", async () => {
   const dir = "supabase/migrations";
   assert.ok(existsSync(dir), `${dir} directory missing`);
-  const files = [...Deno.readDir(dir)]
-    .filter((f) => f.isFile && f.name.endsWith(".sql"))
-    .map((f) => f.name);
+  const files: string[] = [];
+  for await (const f of Deno.readDir(dir)) {
+    if (f.isFile && f.name.endsWith(".sql")) files.push(f.name);
+  }
   assert.ok(files.length > 0, "no migration files found");
   for (const name of files) {
     assert.match(name, /^\d+_/, `migration ${name} must start with a version prefix`);
