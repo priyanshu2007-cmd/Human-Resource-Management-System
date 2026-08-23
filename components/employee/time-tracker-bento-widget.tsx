@@ -168,30 +168,30 @@ export function TimeTrackerBentoWidget({
     : "—";
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm dark:shadow-none relative overflow-hidden transition-all">
+    <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 sm:p-7 shadow-sm dark:shadow-none relative overflow-hidden transition-all">
       {/* Background Subtle Gradient Glow */}
       <div className="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500/10 dark:bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-emerald-500/10 dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header Row: Title & Live Digital Clock */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-100 dark:border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-neutral-100 dark:border-neutral-800">
         <div>
           <div className="flex items-center gap-2">
             <span className="flex h-2.5 w-2.5 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
             </span>
-            <h2 className="text-title-md font-bold text-slate-900 dark:text-slate-50 tracking-tight">
+            <h2 className="text-title-md font-bold text-neutral-900 dark:text-neutral-50 tracking-tight">
               Live Workday Tracker
             </h2>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
             Standard shift: 8h 00m · Location: Office / Verified Network
           </p>
         </div>
 
         {/* Live Digital Clock Badge */}
-        <div className="flex items-center gap-2 self-start sm:self-auto px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 font-mono text-sm font-bold text-slate-800 dark:text-slate-200">
+        <div className="flex items-center gap-2 self-start sm:self-auto px-3.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/80 dark:border-neutral-700/80 font-mono text-sm font-bold text-neutral-800 dark:text-neutral-200">
           <span className="material-symbols-outlined text-base text-indigo-500">schedule</span>
           <span>{formatTimeStr(currentTime)}</span>
         </div>
@@ -208,7 +208,7 @@ export function TimeTrackerBentoWidget({
                 cx="65"
                 cy="65"
                 r={radius}
-                className="stroke-slate-100 dark:stroke-slate-800"
+                className="stroke-neutral-100 dark:stroke-neutral-800"
                 strokeWidth="10"
                 fill="none"
               />
@@ -229,20 +229,20 @@ export function TimeTrackerBentoWidget({
 
             {/* Inner Ring Text */}
             <div className="absolute flex flex-col items-center justify-center text-center">
-              <span className="text-2xl font-extrabold font-mono text-slate-900 dark:text-slate-50 tracking-tight">
+              <span className="text-2xl font-extrabold font-mono text-neutral-900 dark:text-neutral-50 tracking-tight">
                 {progressPercent}%
               </span>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 font-semibold">
                 Workday
               </span>
             </div>
           </div>
 
           <div className="mt-3 text-center">
-            <p className="font-mono text-xs font-bold text-slate-700 dark:text-slate-300">
+            <p className="font-mono text-xs font-bold text-neutral-700 dark:text-neutral-300">
               {formatDuration(elapsedSeconds)}
             </p>
-            <p className="text-[11px] text-slate-400">Target: 08h 00m</p>
+            <p className="text-[11px] text-neutral-400">Target: 08h 00m</p>
           </div>
         </div>
 
@@ -309,26 +309,26 @@ export function TimeTrackerBentoWidget({
 
           {/* Sub-Metrics Grid */}
           <div className="grid grid-cols-3 gap-3">
-            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 text-left">
-              <span className="text-[10px] font-mono uppercase text-slate-400 font-semibold block">
+            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-800 text-left">
+              <span className="text-[10px] font-mono uppercase text-neutral-400 font-semibold block">
                 Punch In
               </span>
-              <span className="text-sm font-mono font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
+              <span className="text-sm font-mono font-bold text-neutral-800 dark:text-neutral-200 mt-0.5 block">
                 {formatShortTime(checkIn)}
               </span>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 text-left">
-              <span className="text-[10px] font-mono uppercase text-slate-400 font-semibold block">
+            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-800 text-left">
+              <span className="text-[10px] font-mono uppercase text-neutral-400 font-semibold block">
                 Target Out
               </span>
-              <span className="text-sm font-mono font-bold text-slate-800 dark:text-slate-200 mt-0.5 block">
+              <span className="text-sm font-mono font-bold text-neutral-800 dark:text-neutral-200 mt-0.5 block">
                 {expectedEnd}
               </span>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 text-left">
-              <span className="text-[10px] font-mono uppercase text-slate-400 font-semibold block">
+            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200/70 dark:border-neutral-800 text-left">
+              <span className="text-[10px] font-mono uppercase text-neutral-400 font-semibold block">
                 Status
               </span>
               <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-1 inline-flex items-center gap-1">

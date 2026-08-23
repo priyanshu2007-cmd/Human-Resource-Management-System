@@ -46,12 +46,12 @@ export default function DepartmentAttendanceDonutChart({ data = DEFAULT_DATA, ov
     >
       <div>
         <div className="flex items-center justify-between mb-1">
-          <h3 className="text-title-md font-bold tracking-tight text-slate-900 dark:text-slate-50">Department Attendance</h3>
-          <span className="font-mono text-[10px] uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 font-semibold tracking-widest">
+          <h3 className="text-title-md font-bold tracking-tight text-neutral-900 dark:text-neutral-50">Department Attendance</h3>
+          <span className="font-mono text-[10px] uppercase px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-500 font-semibold tracking-widest">
             Today
           </span>
         </div>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">
           Attendance rates by team
         </p>
       </div>
@@ -88,22 +88,22 @@ export default function DepartmentAttendanceDonutChart({ data = DEFAULT_DATA, ov
         </ResponsiveContainer>
         {/* Center count */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-3xl font-bold font-mono tracking-tight text-slate-900 dark:text-slate-50">{overallRate}%</span>
-          <span className="text-[10px] uppercase font-mono tracking-widest text-slate-500">
+          <span className="text-3xl font-bold font-mono tracking-tight text-neutral-900 dark:text-neutral-50">{overallRate}%</span>
+          <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-500">
             Avg Rate
           </span>
         </div>
       </div>
 
       {/* Legend */}
-      <div className="space-y-1.5 pt-3 border-t border-slate-200 dark:border-slate-800 text-xs max-h-[90px] overflow-y-auto">
+      <div className="space-y-1.5 pt-3 border-t border-neutral-200 dark:border-neutral-800 text-xs max-h-[90px] overflow-y-auto">
         {chartData.map((d) => (
           <div key={d.name} className="flex items-center justify-between py-1">
             <div className="flex items-center gap-2 truncate">
               <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: d.color }} />
-              <span className="truncate text-slate-600 dark:text-slate-300 font-medium">{d.name}</span>
+              <span className="truncate text-neutral-600 dark:text-neutral-300 font-medium">{d.name}</span>
             </div>
-            <span className="font-mono font-bold shrink-0 ml-2 text-slate-900 dark:text-slate-50">{d.value}%</span>
+            <span className="font-mono font-bold shrink-0 ml-2 text-neutral-900 dark:text-neutral-50">{d.value}%</span>
           </div>
         ))}
       </div>

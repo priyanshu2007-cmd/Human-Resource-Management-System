@@ -94,21 +94,21 @@
 
 :root {
   /* Electric Slate Theme — Light Mode */
-  --background: #F8FAFC;            /* bg-slate-50 */
-  --on-background: #0F172A;         /* text-slate-900 */
+  --background: #F8FAFC;            /* bg-neutral-50 */
+  --on-background: #0F172A;         /* text-neutral-900 */
   --foreground: #0F172A;
   
   --surface-container-lowest: #FFFFFF;  /* bg-white for cards/surfaces */
-  --surface-container-low: #F8FAFC;     /* bg-slate-50 */
-  --surface-container: #F1F5F9;         /* bg-slate-100 */
-  --surface-container-high: #E2E8F0;    /* bg-slate-200 */
-  --surface-container-highest: #CBD5E1; /* bg-slate-300 */
+  --surface-container-low: #F8FAFC;     /* bg-neutral-50 */
+  --surface-container: #F1F5F9;         /* bg-neutral-100 */
+  --surface-container-high: #E2E8F0;    /* bg-neutral-200 */
+  --surface-container-highest: #CBD5E1; /* bg-neutral-300 */
   --surface: #FFFFFF;
-  --on-surface: #0F172A;                /* text-slate-900 */
-  --on-surface-variant: #64748B;        /* text-slate-500 */
+  --on-surface: #0F172A;                /* text-neutral-900 */
+  --on-surface-variant: #64748B;        /* text-neutral-500 */
   
-  --outline: #94A3B8;                   /* border-slate-400 */
-  --outline-variant: #E2E8F0;           /* border-slate-200 */
+  --outline: #94A3B8;                   /* border-neutral-400 */
+  --outline-variant: #E2E8F0;           /* border-neutral-200 */
   
   /* Primary Brand - Electric Indigo */
   --primary: #6366F1;                   /* bg-indigo-500 */
@@ -141,26 +141,26 @@
 
 .dark {
   /* Electric Slate Theme — Dark Mode */
-  --background: #020617;            /* bg-slate-950 */
-  --on-background: #F8FAFC;         /* text-slate-50 */
+  --background: #000000;            /* bg-black */
+  --on-background: #F8FAFC;         /* text-neutral-50 */
   --foreground: #F8FAFC;
   
-  --surface-container-lowest: #0F172A;  /* bg-slate-900 for cards */
-  --surface-container-low: #0F172A;     /* bg-slate-900 */
-  --surface-container: #1E293B;         /* bg-slate-800 */
-  --surface-container-high: #1E293B;    /* bg-slate-800 */
-  --surface-container-highest: #334155; /* bg-slate-700 */
+  --surface-container-lowest: #0F172A;  /* bg-neutral-900 for cards */
+  --surface-container-low: #0F172A;     /* bg-neutral-900 */
+  --surface-container: #1E293B;         /* bg-neutral-800 */
+  --surface-container-high: #1E293B;    /* bg-neutral-800 */
+  --surface-container-highest: #334155; /* bg-neutral-700 */
   --surface: #0F172A;
-  --on-surface: #F8FAFC;                /* text-slate-50 */
-  --on-surface-variant: #94A3B8;        /* text-slate-400 */
+  --on-surface: #F8FAFC;                /* text-neutral-50 */
+  --on-surface-variant: #94A3B8;        /* text-neutral-400 */
   
-  --outline: #64748B;                   /* border-slate-500 */
-  --outline-variant: #1E293B;           /* border-slate-800 */
+  --outline: #64748B;                   /* border-neutral-500 */
+  --outline-variant: #1E293B;           /* border-neutral-800 */
   
   /* Primary Brand - Electric Indigo Dark */
   --primary: #818CF8;                   /* bg-indigo-400 */
   --primary-hover: #6366F1;             /* hover:bg-indigo-500 */
-  --on-primary: #020617;                /* text-slate-950 */
+  --on-primary: #020617;                /* text-neutral-950 */
   --primary-container: #1E1B4B;         /* bg-indigo-950 */
   --on-primary-container: #E0E7FF;      /* text-indigo-100 */
   

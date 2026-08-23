@@ -73,22 +73,22 @@ export function QuickLeaveModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity animate-in fade-in"
+        className="fixed inset-0 bg-neutral-950/60 backdrop-blur-xs transition-opacity animate-in fade-in"
         onClick={onClose}
       />
 
       {/* Modal Card */}
-      <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-5">
+      <div className="relative w-full max-w-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 sm:p-7 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between pb-4 border-b border-neutral-100 dark:border-neutral-800 mb-5">
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
               <span className="material-symbols-outlined text-2xl">event_busy</span>
             </div>
             <div>
-              <h3 className="text-title-md font-bold text-slate-900 dark:text-slate-50 tracking-tight">
+              <h3 className="text-title-md font-bold text-neutral-900 dark:text-neutral-50 tracking-tight">
                 Apply for Leave
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
                 Submit request to HR & Team Lead
               </p>
             </div>
@@ -97,7 +97,7 @@ export function QuickLeaveModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-xl">close</span>
           </button>
@@ -105,7 +105,7 @@ export function QuickLeaveModal({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-mono uppercase font-bold text-slate-500 dark:text-slate-400 mb-1.5">
+            <label className="block text-xs font-mono uppercase font-bold text-neutral-500 dark:text-neutral-400 mb-1.5">
               Leave Category
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -121,7 +121,7 @@ export function QuickLeaveModal({
                   className={`flex flex-col items-center justify-center p-3 rounded-2xl border text-xs font-bold transition-all cursor-pointer ${
                     leaveType === opt.type
                       ? "bg-indigo-500/10 border-indigo-500 text-indigo-600 dark:text-indigo-400 ring-1 ring-indigo-500"
-                      : "bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300"
+                      : "bg-neutral-50 dark:bg-neutral-800/60 border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:border-neutral-300"
                   }`}
                 >
                   <span className="material-symbols-outlined text-lg mb-1">{opt.icon}</span>
@@ -133,7 +133,7 @@ export function QuickLeaveModal({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-mono uppercase font-bold text-slate-500 dark:text-slate-400 mb-1.5">
+              <label className="block text-xs font-mono uppercase font-bold text-neutral-500 dark:text-neutral-400 mb-1.5">
                 From Date *
               </label>
               <input
@@ -142,12 +142,12 @@ export function QuickLeaveModal({
                 value={startDate}
                 min={today}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl text-body-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3.5 py-2.5 rounded-xl text-body-sm bg-neutral-50 dark:bg-neutral-800/80 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase font-bold text-slate-500 dark:text-slate-400 mb-1.5">
+              <label className="block text-xs font-mono uppercase font-bold text-neutral-500 dark:text-neutral-400 mb-1.5">
                 To Date *
               </label>
               <input
@@ -156,13 +156,13 @@ export function QuickLeaveModal({
                 value={endDate}
                 min={startDate || today}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl text-body-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3.5 py-2.5 rounded-xl text-body-sm bg-neutral-50 dark:bg-neutral-800/80 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase font-bold text-slate-500 dark:text-slate-400 mb-1.5">
+            <label className="block text-xs font-mono uppercase font-bold text-neutral-500 dark:text-neutral-400 mb-1.5">
               Reason / Justification (Optional)
             </label>
             <textarea
@@ -170,22 +170,22 @@ export function QuickLeaveModal({
               value={remarks}
               onChange={(e) => setRemarks(e.target.value)}
               placeholder="e.g., Attending family wedding, medical checkup..."
-              className="w-full px-3.5 py-2.5 rounded-xl text-body-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3.5 py-2.5 rounded-xl text-body-sm bg-neutral-50 dark:bg-neutral-800/80 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-neutral-100 dark:border-neutral-800">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-body-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className="px-4 py-2.5 rounded-xl text-body-sm font-semibold text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2.5 rounded-xl text-body-sm font-bold bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white dark:text-slate-950 shadow-sm transition-all hover:shadow-md cursor-pointer disabled:opacity-60"
+              className="px-5 py-2.5 rounded-xl text-body-sm font-bold bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white dark:text-neutral-950 shadow-sm transition-all hover:shadow-md cursor-pointer disabled:opacity-60"
             >
               {loading ? "Submitting…" : "Confirm Request"}
             </button>

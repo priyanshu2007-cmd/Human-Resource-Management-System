@@ -65,19 +65,19 @@ export function UpcomingScheduleBento({ events = DEFAULT_EVENTS }: Props) {
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm dark:shadow-none flex flex-col justify-between transition-all h-full">
+    <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 shadow-sm dark:shadow-none flex flex-col justify-between transition-all h-full">
       <div>
         {/* Card Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex items-center justify-between pb-4 border-b border-neutral-100 dark:border-neutral-800 mb-4">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
               <span className="material-symbols-outlined text-lg">event</span>
             </div>
             <div>
-              <h3 className="text-title-md font-bold text-slate-900 dark:text-slate-50 tracking-tight">
+              <h3 className="text-title-md font-bold text-neutral-900 dark:text-neutral-50 tracking-tight">
                 Upcoming Schedule
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
                 Holidays & planned time off
               </p>
             </div>
@@ -102,25 +102,25 @@ export function UpcomingScheduleBento({ events = DEFAULT_EVENTS }: Props) {
             return (
               <div
                 key={evt.id}
-                className="flex items-center justify-between p-3 rounded-2xl border border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-800/40 hover:bg-slate-100/70 dark:hover:bg-slate-800/80 transition-colors"
+                className="flex items-center justify-between p-3 rounded-2xl border border-neutral-100 dark:border-neutral-800/80 bg-neutral-50/50 dark:bg-neutral-800/40 hover:bg-neutral-100/70 dark:hover:bg-neutral-800/80 transition-colors"
               >
                 {/* Date Badge */}
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center shrink-0 shadow-2xs">
+                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 flex flex-col items-center justify-center shrink-0 shadow-2xs">
                     <span className="text-[10px] font-mono uppercase font-bold text-indigo-600 dark:text-indigo-400 leading-none">
                       {dateObj.month}
                     </span>
-                    <span className="text-base font-extrabold font-mono text-slate-900 dark:text-slate-50 leading-none mt-0.5">
+                    <span className="text-base font-extrabold font-mono text-neutral-900 dark:text-neutral-50 leading-none mt-0.5">
                       {dateObj.day}
                     </span>
                   </div>
 
                   {/* Title & Subtitle */}
                   <div className="min-w-0">
-                    <p className="text-body-sm font-bold text-slate-900 dark:text-slate-100 truncate">
+                    <p className="text-body-sm font-bold text-neutral-900 dark:text-neutral-100 truncate">
                       {evt.title}
                     </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate">
                       {evt.subtitle || dateObj.weekday}
                     </p>
                   </div>
@@ -145,7 +145,7 @@ export function UpcomingScheduleBento({ events = DEFAULT_EVENTS }: Props) {
       </div>
 
       {/* Footer Info */}
-      <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400">
+      <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between text-xs text-neutral-400">
         <span>Showing next 3 occurrences</span>
         <span className="font-mono text-[11px]">FY 2026-27</span>
       </div>

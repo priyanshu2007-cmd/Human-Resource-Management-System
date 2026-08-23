@@ -88,7 +88,7 @@ export function EmployeeDashboardBento({ initialData }: Props) {
           {/* Quick Access Card 1: My Profile */}
           <Link
             href="/employee/profile"
-            className="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm dark:shadow-none hover:border-indigo-500/50 hover:shadow-md transition-all group relative overflow-hidden flex items-center justify-between"
+            className="flex-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-5 shadow-sm dark:shadow-none hover:border-indigo-500/50 hover:shadow-md transition-all group relative overflow-hidden flex items-center justify-between"
           >
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
@@ -98,15 +98,15 @@ export function EmployeeDashboardBento({ initialData }: Props) {
                 <p className="text-xs font-mono uppercase font-bold text-indigo-600 dark:text-indigo-400">
                   Profile & ID: {profile?.employee_id || "EMP"}
                 </p>
-                <h3 className="text-body-md font-bold text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                <h3 className="text-body-md font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                   My Employee Card
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
                   Banking, emergency & documents
                 </p>
               </div>
             </div>
-            <span className="material-symbols-outlined text-slate-300 dark:text-slate-700 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all">
+            <span className="material-symbols-outlined text-neutral-300 dark:text-neutral-700 group-hover:text-indigo-500 group-hover:tranneutral-x-0.5 transition-all">
               chevron_right
             </span>
           </Link>
@@ -114,7 +114,7 @@ export function EmployeeDashboardBento({ initialData }: Props) {
           {/* Quick Access Card 2: Payroll & Compensation */}
           <Link
             href="/employee/payroll"
-            className="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm dark:shadow-none hover:border-emerald-500/50 hover:shadow-md transition-all group relative overflow-hidden flex items-center justify-between"
+            className="flex-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-5 shadow-sm dark:shadow-none hover:border-emerald-500/50 hover:shadow-md transition-all group relative overflow-hidden flex items-center justify-between"
           >
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
@@ -124,15 +124,15 @@ export function EmployeeDashboardBento({ initialData }: Props) {
                 <p className="text-xs font-mono uppercase font-bold text-emerald-600 dark:text-emerald-400">
                   Compensation & Slip
                 </p>
-                <h3 className="text-body-md font-bold text-slate-900 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                <h3 className="text-body-md font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                   Monthly Payslips
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
                   In-hand pay & tax breakdowns
                 </p>
               </div>
             </div>
-            <span className="material-symbols-outlined text-slate-300 dark:text-slate-700 group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all">
+            <span className="material-symbols-outlined text-neutral-300 dark:text-neutral-700 group-hover:text-emerald-500 group-hover:tranneutral-x-0.5 transition-all">
               chevron_right
             </span>
           </Link>
@@ -140,7 +140,7 @@ export function EmployeeDashboardBento({ initialData }: Props) {
           {/* Quick Access Card 3: Attendance History */}
           <Link
             href="/employee/attendance"
-            className="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm dark:shadow-none hover:border-amber-500/50 hover:shadow-md transition-all group relative overflow-hidden flex items-center justify-between"
+            className="flex-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-5 shadow-sm dark:shadow-none hover:border-amber-500/50 hover:shadow-md transition-all group relative overflow-hidden flex items-center justify-between"
           >
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
@@ -150,15 +150,15 @@ export function EmployeeDashboardBento({ initialData }: Props) {
                 <p className="text-xs font-mono uppercase font-bold text-amber-600 dark:text-amber-400">
                   Timesheet & Logs
                 </p>
-                <h3 className="text-body-md font-bold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                <h3 className="text-body-md font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                   Attendance History
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
                   Monthly presence & shift hours
                 </p>
               </div>
             </div>
-            <span className="material-symbols-outlined text-slate-300 dark:text-slate-700 group-hover:text-amber-500 group-hover:translate-x-0.5 transition-all">
+            <span className="material-symbols-outlined text-neutral-300 dark:text-neutral-700 group-hover:text-amber-500 group-hover:tranneutral-x-0.5 transition-all">
               chevron_right
             </span>
           </Link>

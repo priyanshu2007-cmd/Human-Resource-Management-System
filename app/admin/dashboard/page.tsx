@@ -192,17 +192,17 @@ export default async function AdminDashboard() {
       {/* 1. Executive Header & Global Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+          <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
             Welcome back, Admin
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
           </p>
         </div>
         <div className="flex items-center gap-3">
           <EmployeeContextSwitcher employees={employees || []} />
           
-          <button className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+          <button className="px-4 py-2 text-sm font-semibold text-neutral-700 dark:text-neutral-200 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
             Export Reports
           </button>
           <Link
@@ -220,10 +220,10 @@ export default async function AdminDashboard() {
         {kpis.map((kpi) => (
           <div
             key={kpi.label}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm dark:shadow-none relative overflow-hidden flex flex-col justify-between"
+            className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 shadow-sm dark:shadow-none relative overflow-hidden flex flex-col justify-between"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="font-semibold text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <span className="font-semibold text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
                 {kpi.label}
               </span>
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${kpi.bg} ${kpi.color}`}>
@@ -233,7 +233,7 @@ export default async function AdminDashboard() {
             
             <div className="flex items-end justify-between">
               <div>
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-50 font-mono tracking-tight">{kpi.value}</p>
+                <p className="text-2xl font-bold text-neutral-900 dark:text-neutral-50 font-mono tracking-tight">{kpi.value}</p>
               </div>
               
               <div className="flex items-center gap-1 text-xs font-semibold" 
@@ -247,7 +247,7 @@ export default async function AdminDashboard() {
 
             {/* Mini Progress Bar for Present Today */}
             {kpi.progress !== undefined && (
-              <div className="mt-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div className="mt-3 w-full bg-neutral-100 dark:bg-neutral-800 rounded-full h-1.5 overflow-hidden">
                 <div 
                   className="bg-emerald-500 h-1.5 rounded-full" 
                   style={{ width: `${kpi.progress}%` }}
@@ -267,9 +267,9 @@ export default async function AdminDashboard() {
       {/* 4. Actionable Queues & Live Feeds (Bottom Row) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Pending Leave Approvals (Span 2) */}
-        <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm dark:shadow-none flex flex-col">
-          <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-50 flex items-center gap-2">
+        <div className="lg:col-span-2 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-sm dark:shadow-none flex flex-col">
+          <div className="px-5 py-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-50 flex items-center gap-2">
               <span className="material-symbols-outlined text-amber-500">pending_actions</span>
               Pending Leave Approvals
             </h2>
@@ -277,7 +277,7 @@ export default async function AdminDashboard() {
               View All ({pendingLeaves ?? 0}) →
             </Link>
           </div>
-          <div className="divide-y divide-slate-100 dark:divide-slate-800/50 flex-1 overflow-hidden">
+          <div className="divide-y divide-neutral-100 dark:divide-neutral-800/50 flex-1 overflow-hidden">
             {recentPendingLeaves.length > 0 ? (
               recentPendingLeaves.map((req) => {
                 const initials = (req.profiles?.full_name || "?")
@@ -288,14 +288,14 @@ export default async function AdminDashboard() {
                   .toUpperCase();
                 
                 return (
-                  <div key={req.id} className="px-5 py-3.5 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                  <div key={req.id} className="px-5 py-3.5 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 flex items-center justify-center text-xs font-bold">
                         {initials}
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">{req.profiles?.full_name}</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">
+                        <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-50">{req.profiles?.full_name}</p>
+                        <p className="text-xs text-neutral-500 dark:text-neutral-400 capitalize">
                           {req.leave_type} Leave • {new Date(req.start_date).toLocaleDateString()} to {new Date(req.end_date).toLocaleDateString()}
                         </p>
                       </div>
@@ -304,7 +304,7 @@ export default async function AdminDashboard() {
                       <button className="px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/20 rounded-md transition-colors border border-emerald-200 dark:border-emerald-500/20">
                         Approve
                       </button>
-                      <button className="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 dark:text-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 rounded-md transition-colors border border-slate-200 dark:border-slate-700">
+                      <button className="px-3 py-1.5 text-xs font-semibold text-neutral-700 bg-white hover:bg-neutral-50 dark:text-neutral-300 dark:bg-neutral-900 dark:hover:bg-neutral-800 rounded-md transition-colors border border-neutral-200 dark:border-neutral-700">
                         Reject
                       </button>
                     </div>
@@ -314,22 +314,22 @@ export default async function AdminDashboard() {
             ) : (
               <div className="p-8 text-center flex flex-col items-center justify-center h-full">
                 <span className="material-symbols-outlined text-3xl text-emerald-500 mb-2">task_alt</span>
-                <p className="text-sm font-medium text-slate-900 dark:text-slate-50">All caught up!</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">No pending leave requests.</p>
+                <p className="text-sm font-medium text-neutral-900 dark:text-neutral-50">All caught up!</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">No pending leave requests.</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Live Attendance Activity (Span 1) */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm dark:shadow-none flex flex-col h-[320px]">
-          <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-50 flex items-center gap-2">
+        <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-sm dark:shadow-none flex flex-col h-[320px]">
+          <div className="px-5 py-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-neutral-50 flex items-center gap-2">
               <span className="material-symbols-outlined text-emerald-500">history</span>
               Live Attendance
             </h2>
           </div>
-          <div className="flex-1 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800/50 p-2">
+          <div className="flex-1 overflow-y-auto divide-y divide-neutral-100 dark:divide-neutral-800/50 p-2">
             {liveAttendanceFeed.length > 0 ? (
               liveAttendanceFeed.map((log, idx) => {
                 const isCheckIn = log.check_in_time && !log.check_out_time;
@@ -342,18 +342,18 @@ export default async function AdminDashboard() {
                       {isCheckIn ? (
                         <span className="material-symbols-outlined text-emerald-500 text-lg">login</span>
                       ) : log.check_out_time ? (
-                        <span className="material-symbols-outlined text-slate-400 text-lg">logout</span>
+                        <span className="material-symbols-outlined text-neutral-400 text-lg">logout</span>
                       ) : (
                         <span className="material-symbols-outlined text-amber-500 text-lg">radio_button_unchecked</span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-0.5">
-                        <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">{log.profiles?.full_name}</p>
-                        <span className="text-xs text-slate-500 font-mono">{timeStr}</span>
+                        <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-50 truncate">{log.profiles?.full_name}</p>
+                        <span className="text-xs text-neutral-500 font-mono">{timeStr}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-slate-500 truncate">{log.profiles?.department || 'General'}</span>
+                        <span className="text-xs text-neutral-500 truncate">{log.profiles?.department || 'General'}</span>
                         {log.status === 'present' && (
                           <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400 uppercase tracking-wider">
                             On Time
@@ -371,7 +371,7 @@ export default async function AdminDashboard() {
               })
             ) : (
               <div className="p-8 text-center flex flex-col items-center justify-center h-full">
-                <p className="text-sm font-medium text-slate-500">No activity yet today.</p>
+                <p className="text-sm font-medium text-neutral-500">No activity yet today.</p>
               </div>
             )}
           </div>

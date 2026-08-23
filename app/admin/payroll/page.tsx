@@ -540,7 +540,7 @@ export default function AdminPayrollPage() {
           </div>
 
           <div className="relative w-full sm:w-64">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-lg" style={{ color: "var(--outline)" }}>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -tranneutral-y-1/2 text-lg" style={{ color: "var(--outline)" }}>
               search
             </span>
             <input
