@@ -114,8 +114,12 @@ export default async function AdminDashboard() {
   
   // Calculate department attendance rates
   const deptStats: Record<string, { total: number; present: number }> = {};
-  
-  todayAttendance?.forEach((a: any) => {
+
+  type DeptAttendance = {
+    status: string | null;
+    profiles?: { department: string | null } | null;
+  };
+  (todayAttendance as DeptAttendance[] | null)?.forEach((a) => {
     const dept = a.profiles?.department || "General";
     if (!deptStats[dept]) deptStats[dept] = { total: 0, present: 0 };
     deptStats[dept].total++;

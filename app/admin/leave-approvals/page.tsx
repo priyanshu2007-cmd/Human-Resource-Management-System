@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Pagination } from "@/components/shared/pagination";
-import { toast } from "sonner";
 
 const PAGE_SIZE = 10;
 

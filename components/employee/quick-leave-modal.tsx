@@ -117,7 +117,7 @@ export function QuickLeaveModal({
                 <button
                   key={opt.type}
                   type="button"
-                  onClick={() => setLeaveType(opt.type as any)}
+                  onClick={() => setLeaveType(opt.type as "paid" | "sick" | "unpaid")}
                   className={`flex flex-col items-center justify-center p-3 rounded-2xl border text-xs font-bold transition-all cursor-pointer ${
                     leaveType === opt.type
                       ? "bg-indigo-500/10 border-indigo-500 text-indigo-600 dark:text-indigo-400 ring-1 ring-indigo-500"

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 const DEMO_USERS = [
   { name: "Admin (HR Officer)", email: "spec.priyanshu@gmail.com", role: "Admin", dept: "HR & Exec", id: "ADM-001" },
@@ -20,7 +19,6 @@ const DEMO_USERS = [
 export function DemoSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const [switching, setSwitching] = useState<string | null>(null);
-  const router = useRouter();
 
   async function handleSwitch(email: string) {
     setSwitching(email);
