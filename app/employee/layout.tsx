@@ -1,23 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { EmployeeShell } from "./employee-shell";
-import { unstable_cache } from "next/cache";
-
-async function getUserProfile(userId: string) {
-  const supabase = await createClient();
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("full_name, role, employee_id")
-    .eq("id", userId)
-    .single();
-  return profile;
-}
-
-const getCachedUserProfile = unstable_cache(
-  getUserProfile,
-  ["user-profile"],
-  { revalidate: 60, tags: ["user-profile"] }
-);
 
 export default async function EmployeeLayout({
   children,
@@ -29,21 +12,29 @@ export default async function EmployeeLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/sign-in");
+  if (!user) {
+    redirect("/sign-in");
+  }
 
-  const profile = await getCachedUserProfile(user.id);
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, role, employee_id")
+    .eq("id", user.id)
+    .single();
 
-  if (!profile) redirect("/sign-up");
+  if (!profile) {
+    redirect("/sign-up");
+  }
 
-  const nameParts = profile.full_name.split(" ");
+  const nameParts = (profile.full_name || "Employee").split(" ");
   const initials = (
     (nameParts[0]?.[0] || "") + (nameParts[nameParts.length - 1]?.[0] || "")
-  ).toUpperCase();
+  ).toUpperCase() || "EM";
 
   return (
     <EmployeeShell
       user={{
-        name: profile.full_name,
+        name: profile.full_name || "Employee",
         role: profile.role === "admin" ? "Admin" : "Employee",
         initials,
       }}

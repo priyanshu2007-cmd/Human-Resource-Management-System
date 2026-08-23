@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { DashboardAnalyticsWrapper } from "@/components/analytics/dashboard-analytics-wrapper";
 
 export default async function AdminDashboard() {
@@ -10,13 +11,21 @@ export default async function AdminDashboard() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect("/sign-in");
+  }
+
   const { data: profile } = await supabase
     .from("profiles")
     .select("organization_id")
-    .eq("id", user?.id ?? "")
+    .eq("id", user.id)
     .single();
 
-  const orgId = profile?.organization_id;
+  if (!profile?.organization_id) {
+    redirect("/employee/dashboard");
+  }
+
+  const orgId = profile.organization_id;
   const today = new Date().toISOString().split("T")[0];
 
   // 30 days ago for new employees metric
