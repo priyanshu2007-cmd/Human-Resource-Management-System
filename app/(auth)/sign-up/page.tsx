@@ -78,7 +78,7 @@ export default function SignUpPage() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/callback`,
+          emailRedirectTo: `${globalThis.location.origin}/callback`,
           data: {
             employee_id: employeeId,
             first_name: firstName,

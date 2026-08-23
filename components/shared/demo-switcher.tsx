@@ -33,7 +33,7 @@ export function DemoSwitcher() {
 
       const data = await res.json();
       if (data.redirectUrl) {
-        window.location.href = data.redirectUrl;
+        globalThis.location.href = data.redirectUrl;
       } else {
         alert(data.error || "Failed to switch user");
         setSwitching(null);

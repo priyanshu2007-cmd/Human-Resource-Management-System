@@ -305,7 +305,7 @@ export default function EmployeeProfilePage() {
 
     setViewingDocId(null);
     if (data?.signedUrl) {
-      window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+      globalThis.open(data.signedUrl, "_blank", "noopener,noreferrer");
     }
   }
 

@@ -85,7 +85,7 @@ export default function EmployeePayrollPage() {
   function handlePrint() {
     const content = payslipRef.current;
     if (!content) return;
-    const win = window.open("", "_blank");
+    const win = globalThis.open("", "_blank");
     if (!win) return;
     win.document.write(`
       <html>

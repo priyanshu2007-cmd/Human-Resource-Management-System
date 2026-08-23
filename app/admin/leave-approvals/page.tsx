@@ -69,8 +69,8 @@ export default function AdminLeaveApprovalsPage() {
     function onFocus() {
       fetchData();
     }
-    window.addEventListener("focus", onFocus);
-    return () => window.removeEventListener("focus", onFocus);
+    globalThis.addEventListener("focus", onFocus);
+    return () => globalThis.removeEventListener("focus", onFocus);
   }, [fetchData]);
 
   async function handleDecision(
