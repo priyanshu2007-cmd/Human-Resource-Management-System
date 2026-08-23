@@ -140,28 +140,28 @@
 }
 
 .dark {
-  /* Electric Slate Theme — Dark Mode */
-  --background: #000000;            /* bg-black */
-  --on-background: #F8FAFC;         /* text-neutral-50 */
+  /* Midnight Navy Theme — Dark Mode */
+  --background: #020617;            /* bg-slate-950 */
+  --on-background: #F8FAFC;         /* text-slate-50 */
   --foreground: #F8FAFC;
   
-  --surface-container-lowest: #0F172A;  /* bg-neutral-900 for cards */
-  --surface-container-low: #0F172A;     /* bg-neutral-900 */
-  --surface-container: #1E293B;         /* bg-neutral-800 */
-  --surface-container-high: #1E293B;    /* bg-neutral-800 */
-  --surface-container-highest: #334155; /* bg-neutral-700 */
+  --surface-container-lowest: #0F172A;  /* bg-slate-900 for cards */
+  --surface-container-low: #0F172A;     /* bg-slate-900 */
+  --surface-container: #1E293B;         /* bg-slate-800 */
+  --surface-container-high: #1E293B;    /* bg-slate-800 */
+  --surface-container-highest: #334155; /* bg-slate-700 */
   --surface: #0F172A;
-  --on-surface: #F8FAFC;                /* text-neutral-50 */
-  --on-surface-variant: #94A3B8;        /* text-neutral-400 */
+  --on-surface: #F8FAFC;                /* text-slate-50 */
+  --on-surface-variant: #94A3B8;        /* text-slate-400 */
   
-  --outline: #64748B;                   /* border-neutral-500 */
-  --outline-variant: #1E293B;           /* border-neutral-800 */
+  --outline: #475569;                   /* border-slate-600 */
+  --outline-variant: #1E293B;           /* border-slate-800 */
   
-  /* Primary Brand - Electric Indigo Dark */
-  --primary: #818CF8;                   /* bg-indigo-400 */
-  --primary-hover: #6366F1;             /* hover:bg-indigo-500 */
-  --on-primary: #020617;                /* text-neutral-950 */
-  --primary-container: #1E1B4B;         /* bg-indigo-950 */
+  /* Primary Brand - Indigo */
+  --primary: #6366F1;                   /* bg-indigo-500 (Vibrant for dark mode) */
+  --primary-hover: #4F46E5;             /* hover:bg-indigo-600 */
+  --on-primary: #FFFFFF;                /* Crisp white on vibrant button */
+  --primary-container: #312E81;         /* bg-indigo-900 */
   --on-primary-container: #E0E7FF;      /* text-indigo-100 */
   
   --secondary: #A78BFA;
@@ -169,7 +169,7 @@
   --secondary-container: #2E1065;
   --on-secondary-container: #EDE9FE;
   
-  --surface-tint: #818CF8;
+  --surface-tint: #818CF8;              /* text-indigo-400 equivalent for accents */
   
   --error: #FB7185;
   --on-error: #881337;
